@@ -7,18 +7,21 @@ import {
     Pressable,
     ScrollView,
     TouchableWithoutFeedback,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import apptw from "../../utils/lib/tailwind";
+import AppText from "../Display/AppText";
 
 
 
 type BasicBackButtonLayoutProp = {
     children: React.ReactNode;
+    pageTitle:string
 };
 
-const BasicBackButtonLayout = ({ children }: BasicBackButtonLayoutProp) => {
+const BasicBackButtonLayout = ({ children, pageTitle }: BasicBackButtonLayoutProp) => {
     const navigation = useNavigation();
 
     return (
@@ -29,14 +32,22 @@ const BasicBackButtonLayout = ({ children }: BasicBackButtonLayoutProp) => {
                 style={apptw`bg-secondary   flex-1 shadow-md`}
                 edges={["top", "left", "right"]}
             >
-                <Pressable onPress={() => navigation.goBack()} style={tw.style("py-2 px-3", )}>
+                <Pressable onPress={() => navigation.goBack()} style={tw.style("py-1 px-3",)}>
                     <MaterialIcons
                         name="keyboard-arrow-left"
                         size={40}
                         style={tw`bg-`}
                         color="black"
                     />
+
+                    <View>
+                        <AppText style={apptw` bottom-10 text-2xl text-center`}>
+                          {pageTitle}
+                        </AppText>
+                    </View>
                 </Pressable>
+
+
 
                 {children}
             </SafeAreaView>

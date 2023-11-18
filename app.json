@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-reactnative-typescript",
-    "slug": "expo-reactnative-typescript",
+    "name": "Omni-nutrient",
+    "slug": "Omni-nutrient",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

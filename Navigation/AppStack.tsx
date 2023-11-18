@@ -2,6 +2,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "./CustomDrawer";
 import Tabs from "./Tabs";
 import Test from "../screens/Tests/Test";
+import ContactSupportScreen from "../screens/Support/ContactSupportScreen";
+import ProfileScreen from "../screens/Profile/ProfileScreen";
 
 
 const Drawer = createDrawerNavigator();
@@ -19,35 +21,40 @@ const AppStack = () => {
                     width: '70%',
 
                 },
-                drawerActiveTintColor: "#4425F50A",
+                drawerActiveTintColor: "white",
             }}
             drawerContent={props => <CustomDrawer{...props} />}
         >
 
-            <Drawer.Screen
+             <Drawer.Screen
                 name='DashBoard'
                 component={Tabs}
                 options={{
                     drawerType: 'front',
-
                     title: "dashboard",
                     headerShown: false,
+                }}
+            /> 
 
-
+            <Drawer.Screen
+                name='Profile'
+                component={ProfileScreen}
+                options={{
+                    drawerType: 'front',
+                    title: "Profile",
+                    headerShown: false,
                 }}
             />
 
             <Drawer.Screen
-                name='Test'
-                component={Test}
-                options={{
-                    drawerType: 'front',
+            name="Support"
+            component={ContactSupportScreen}
+            options={{
+                drawerType: 'front',
+                title: "Support",
+                headerShown: false,
 
-                    title: "Test",
-                    headerShown: false,
-
-
-                }}
+            }}
             />
 
 

@@ -17,12 +17,51 @@ import DashBoardScreen from './screens/DashBoard/DashBoardScreen';
 import Tabs from './Navigation/Tabs';
 import AuthStack from './Navigation/AuthStack';
 import AppStack from './Navigation/AppStack';
+import store from './state/store';
+import Toast, { BaseToast, BaseToastProps, ErrorToast } from 'react-native-toast-message';
 
 
 
 
 
 
+
+
+
+const toastConfig = {
+  /*
+    Overwrite 'success' type,
+    by modifying the existing `BaseToast` component
+  */
+  success: (props: React.JSX.IntrinsicAttributes & BaseToastProps) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftColor: '#54AC52'  }}
+      
+      contentContainerStyle={{ paddingHorizontal: 10,  }}
+      text1Style={{
+        fontSize: 20,
+        fontWeight: '400'
+      }}
+    />
+  ),
+  /*
+    Overwrite 'error' type,
+    by modifying the existing `ErrorToast` component
+  */
+  error: (props: React.JSX.IntrinsicAttributes & BaseToastProps) => (
+    <ErrorToast
+      {...props}
+      text1Style={{
+        fontSize: 17
+      }}
+      text2Style={{
+        fontSize: 15
+      }}
+    />
+  ),
+  
+};
 
 
 
@@ -34,19 +73,23 @@ export default function App() {
 
 
   return (
-
-    <SafeAreaProvider>
-      <StatusBar />
-
-
-      <NavigationContainer>
-        {/* <AppStack/> */}
-        <AuthStack />
-      </NavigationContainer>
+    <Provider
+      store={store}
+    >
+      <SafeAreaProvider>
+        <StatusBar translucent backgroundColor="transparent" />
 
 
+        <NavigationContainer>
+          {/* <AppStack/> */}
+          <AuthStack />
+        </NavigationContainer>
 
-    </SafeAreaProvider>
+
+
+      </SafeAreaProvider>
+      <Toast config={toastConfig} />
+    </Provider>
 
 
   );

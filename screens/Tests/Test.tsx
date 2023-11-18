@@ -9,7 +9,7 @@ export default function Test() {
             style={tw` flex-1`}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-            <LoggedLayout>
+            <LoggedLayout pageTitle="testing ">
                 <ScrollView
                     showsVerticalScrollIndicator={true}
                     style={tw`px-6`}

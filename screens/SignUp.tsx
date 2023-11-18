@@ -11,6 +11,11 @@ import { RootStackParamList } from "./allroutes";
 import tw from "twrnc"
 import { Checkbox } from "expo-checkbox";
 
+import { CreateYourAccountFormType, createYourAccountSchema } from "../services/validation/createAccountVal";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import userRequest from "../utils/request/userRequests";
+
 type SignUpScreen = NativeStackScreenProps<
     RootStackParamList,
     "SignUp"
@@ -18,179 +23,153 @@ type SignUpScreen = NativeStackScreenProps<
 
 const SignUp = ({ navigation }: SignUpScreen) => {
     const [isButtonLoading, setButtonLoading] = useState(false)
-    // const { isError, isLoading, isSuccess, loginErrorMessage } = useSelector(authSelector);
+    const {
+        control,
+        formState: { errors },
+        handleSubmit,
+    } = useForm<CreateYourAccountFormType>({
+        resolver: zodResolver(createYourAccountSchema)
+    })
 
     // const dispatch = useDispatch<AppDispatch>();
+
+   
+
+
+    const onSubmit = handleSubmit(async (data) => {
+        console.log(data)
+
+
+        setButtonLoading(true)
+        await userRequest.createAccount(data.userName,
+            data.password, data.fName,
+            data.lName, data.email).then(res => {
+                if (res.status === 256) {
+                    console.log("account exists")
+                } if (res.status === 200) {
+                    navigation.navigate("SignIn")
+                    console.log("sucess")
+                 
+                } else {
+                    console.log("unknown error")
+                }
+            })
+
+
+
+        setButtonLoading(false)
+    })
+
+
 
     const navigateToSignIn = () => {
         navigation.navigate("SignIn")
     }
 
-    const [isChecked, setChecked] = useState(false);
-
-
-
-
 
     return (
-        <BasicBackButtonLayout>
-            <>
-
-                <ScrollView
-                    style={tw`px-5 `}
-                    contentContainerStyle={tw.style(` justify-between`, {
-                        flexGrow: 1,
-                    })}
+        <BasicBackButtonLayout pageTitle="Register Account">
+            <ScrollView
+                style={tw`px-5 `}
+                contentContainerStyle={tw.style(` justify-between`, {
+                    flexGrow: 1,
+                })}
+            >
+                <View
+                    style={apptw``}
                 >
-                    <View>
-
-                        <AppText
-                            style={apptw`text-3xl text-center text-black`}>
-                            Register Account
-                        </AppText>
-                        <AppText
-                            style={apptw`text-lg text-center  pb-5`}>
-                            Fill your details or continue with
-                            social media
-                        </AppText>
-
-
-                        <AppTextField
-                            title="Firstname"
-                            validationName="userName"
-                            placeholder="Firstname"
-                        />
-
-                        <AppTextField
-                            title="Firstname"
-                            validationName="userName"
-                            placeholder="lastname"
-                        />
-
-                        <AppTextField
-                            title="Email"
-                            validationName="email"
-                            placeholder="example@gmail.com"
-                        />
-
-                        <AppTextField
-                            title="Password"
-                            validationName="password"
-                            placeholder="***********"
-                            isPassword={true}
-                        />
-
-                        <View
-                            style={apptw`flex-row`}
-                        >
-                            <Checkbox
-                                style={apptw``}
-                                value={isChecked}
-                                onValueChange={setChecked}
-                                color={isChecked ? '#4630EB' : undefined}
-                            />
-                            <AppText>
-
-                                I accept all the Terms & Conditions
-                            </AppText>
-                        </View>
-
-
-                    </View>
+                    <AppText
+                        style={apptw`text-lg text-center  pb-5`}>
+                        Fill your details or continue with
+                        social media
+                    </AppText>
 
 
 
 
+                    <AppTextField
+                        title="Firstname"
+                        validationName="fName"
+                        control={control}
+                        errorMessage={errors.fName?.message}
+                        placeholder="Firstname"
+                    />
 
-                    <View style={apptw`mb-19`}>
+                    <AppTextField
+                        title="Lastname"
+                        validationName="lName"
+                        control={control}
+                        errorMessage={errors.lName?.message}
+                        placeholder="Lastname"
+                    />
 
-                        <AppButton
-                            buttonStyle={apptw`  my-6`}
-                            text={isButtonLoading ? "Loading..." : "Register"}
+
+                    <AppTextField
+                        title="Username"
+                        control={control}
+                        errorMessage={errors.userName?.message}
+                        validationName="userName"
+                        // onChange={}
+                        placeholder="username"
+                    />
+
+
+                    <AppTextField
+                        title="Email"
+                        validationName="email"
+                        errorMessage={errors.email?.message}
+                        control={control}
+                        keyboardType="email-address"
+                        placeholder="example@gmail.com"
+                    />
+
+                    <AppTextField
+                        title="Password"
+                        validationName="password"
+                        control={control}
+                        errorMessage={errors.password?.message}
+                        placeholder="***********"
+                        isPassword={true}
+                    />
+
+
+
+
+                </View>
+
+
+
+
+
+                <View style={apptw`mb-19 px-5`}>
+
+                    <AppButton
+                        buttonStyle={apptw`  my-6`}
+                        text={isButtonLoading ? "Loading..." : "Create Account"}
+                        onPress={onSubmit}
+
+                    // text="Create Account"
+                    />
+
+                    <AppText style={apptw`self-center text-zinc-400 text-[4]`}>
+                        Already have an account?{' '}
+
+
+                        <PressAppText
                             onPress={navigateToSignIn}
-                        // text="Create Account"
-
-                        />
-
-
-                        <View
-                            style={apptw`flex-row justify-between items-center mb-3`}
-                        >
-                            <View
-                                style={{
-                                    borderBlockColor: "gray",
-                                    borderBottomWidth: 1,
-                                    width: 100,
-                                    paddingBottom: 10
-                                }}
-                            />
-                            <AppText style={apptw`font-bold pt-2 mx-2 mx-auto`}>
-
-                                Or sign in with
-                            </AppText>
-                            <View
-                                style={{
-                                    borderBlockColor: "gray",
-                                    borderBottomWidth: 1,
-                                    width: 100,
-                                    paddingBottom: 10
-                                }}
-                            />
-                        </View>
+                            style={apptw`text-primary top-[1]  `}>
+                            Sign In
+                        </PressAppText>
 
 
 
+                    </AppText>
 
 
+                </View>
+            </ScrollView>
 
 
-
-
-
-
-
-
-                        <View>
-                            <Pressable>
-
-                                <View style={apptw`rounded-lg bg-white flex-row justify-center items-center py-3`}>
-
-
-                                    <Image
-                                        source={require("../assets/google_logo.png")}
-                                        style={apptw`mx-0 px-0`}
-                                    />
-                                    <AppText style={apptw`font-bold pt-0 mx-0`}>
-
-
-                                        {" "} Sign Up with Google
-                                    </AppText>
-                                </View>
-
-
-                            </Pressable>
-
-                        </View>
-
-                        <AppText style={apptw`self-center text-zinc-400 text-[4]`}>
-                            Already have an account?{' '}
-
-
-                            <PressAppText
-                                onPress={navigateToSignIn}
-                                style={apptw`text-primary top-[1]  `}>
-                                Sign In
-                            </PressAppText>
-
-
-
-                        </AppText>
-
-
-                    </View>
-                </ScrollView>
-
-            </>
 
         </BasicBackButtonLayout>
     )

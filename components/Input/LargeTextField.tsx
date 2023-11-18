@@ -55,7 +55,7 @@ const LargeTextField = (props: AppTextFieldProps) => {
                                 {props?.title}
                             </AppText>
                             <View
-                                style={ apptw` w-full bg-specpurple mt-2 rounded-md  flexDirection: 'row'  p-4 border-2    ${
+                                style={ apptw` w-full bg-textField mt-2 rounded-md  flexDirection: 'row'  p-4 border-2    ${
                                     props.errorMessage
                                         ? " border-red-700"
                                         : "border-transparent"
@@ -95,7 +95,7 @@ const LargeTextField = (props: AppTextFieldProps) => {
                 {props?.title}
             </AppText>
             <View
-                style={apptw` w-full bg-specpurple mt-2 rounded-md   border-2  ${
+                style={apptw` w-full bg-textField mt-2 rounded-md   border-2  ${
                     props.errorMessage
                         ? " border-red-700"
                         : "border-transparent"
