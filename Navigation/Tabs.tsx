@@ -46,7 +46,7 @@ const Tabs = () => {
             />
 
 
-            < Tab.Screen
+            {/* < Tab.Screen
                 name='Search'
                 component={MainSearchScreen}
                 options={{
@@ -56,7 +56,7 @@ const Tabs = () => {
                             size={26} />
                     ),
                 }}
-            />
+            /> */}
 
             < Tab.Screen
                 name='Journal'

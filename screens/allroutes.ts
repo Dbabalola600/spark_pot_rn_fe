@@ -15,5 +15,6 @@ export type RootStackParamList ={
     SavedJournalScreen: undefined
     SavedJournal:undefined
     PersonalJournal:undefined
+    DetailsFromApiScreen: {slug: any}
 
 }

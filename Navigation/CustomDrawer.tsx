@@ -2,7 +2,7 @@ import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawe
 import { View, Text, ImageBackground, Image, Pressable } from "react-native";
 import AppText from "../components/Display/AppText";
 import apptw from "../utils/lib/tailwind";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { authSelector } from "../state/userSlice";
@@ -23,26 +23,38 @@ export default function CustomDrawer(props: any) {
             {...props}
         >
 
-           
+
             <View
                 style={apptw` mx-5 `}
             >
                 <AppText
                     style={apptw`text-5 text- `}
                 >
-                    Welcome {user.userName},
+                    Welcome {user.userName}
                 </AppText>
-                <AppText
+                {/* <AppText
                     style={apptw`text-3 text- `}
                 >
                     What do you want today?
-                </AppText>
+                </AppText> */}
 
-                <AppText
-                    style={apptw`text-3 text- `}
+                <View
+                    style={apptw`bg-textField mx-auto rounded-full px-5 py-5 my-10`}
                 >
-                 Image goes here 
-                </AppText>
+                    {user?.image === "" ? (
+                        <Ionicons
+                            name="md-person-outline"
+                            size={120}
+                            color="#BC4B52"
+                        />
+                    ) : (
+                        <Image
+                            style={apptw`rounded-full w-50 h-50`}
+                            // height={5}
+                            source={{ uri: `${user?.image}` }}
+                        />
+                    )}
+                </View>
             </View>
 
 
@@ -53,18 +65,23 @@ export default function CustomDrawer(props: any) {
             >
                 <DrawerItemList {...props} />
             </View>
-
-            <Pressable
-                onPress={() => navigation.navigate("SignIn")}
-                style={apptw`bg-transparent flex-row px-5 pt-5`}
+            <View
+            style={apptw`mt-20`}
             >
-                <SimpleLineIcons name="logout" size={24} color="black" />
-                <AppText
-                    style={apptw`mx-10`}
+
+                <Pressable
+                    onPress={() => navigation.navigate("SignIn")}
+                    style={apptw`bg-transparent flex-row px-5 pt-5`}
                 >
-                    Logout
-                </AppText>
-            </Pressable>
+                    <SimpleLineIcons name="logout" size={24} color="black" />
+                    <AppText
+                        style={apptw`mx-10`}
+                    >
+                        Logout
+                    </AppText>
+                </Pressable>
+
+            </View>
 
 
 

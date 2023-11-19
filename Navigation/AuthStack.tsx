@@ -9,6 +9,7 @@ import Start from "../screens/Start";
 import MainSettingsScreen from "../screens/Settings/MainSettingScreen";
 import PersonalJournalScreen from "../screens/Journals/Personal/PersonalJournalScreen";
 import SavedJournalScreen from "../screens/Journals/Saved/SavedJournalScreen";
+import DetailsFromApiScreen from "../screens/Recipes/Details/DetailsFromAPI";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -55,6 +56,10 @@ const AuthStack = () => {
             <Stack.Screen
             name="SavedJournalScreen"
             component={SavedJournalScreen}
+            />
+            <Stack.Screen
+            name="DetailsFromApiScreen"
+            component={DetailsFromApiScreen}
             />
 
             

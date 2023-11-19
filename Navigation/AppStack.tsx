@@ -30,8 +30,9 @@ const AppStack = () => {
                 name='DashBoard'
                 component={Tabs}
                 options={{
+                    
                     drawerType: 'front',
-                    title: "dashboard",
+                    title: "DashBoard",
                     headerShown: false,
                 }}
             /> 

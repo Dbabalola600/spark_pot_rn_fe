@@ -89,12 +89,11 @@ const SignIn = ({ navigation }: SignInScreen) => {
 
                         <AppText
                             style={apptw`text-3xl text-center text-black`}>
-                            Hello Dr!
+                            Hello!
                         </AppText>
                         <AppText
                             style={apptw`text-lg text-center `}>
-                            Fill your details or continue with
-                            social media
+                            Please enter your information
                         </AppText>
 
 
