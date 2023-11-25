@@ -16,5 +16,9 @@ export type RootStackParamList ={
     SavedJournal:undefined
     PersonalJournal:undefined
     DetailsFromApiScreen: {slug: any}
-
+    DetailsFromDBScreen:{_id: any}
+    NewRecipeScreen: undefined
+    NewIngredientsScreen: {reqData: any}
+    NewInstructions: {reqData:any}
+    UploadPictureScreen: {reqData:any}
 }

@@ -4,6 +4,7 @@ import Tabs from "./Tabs";
 import Test from "../screens/Tests/Test";
 import ContactSupportScreen from "../screens/Support/ContactSupportScreen";
 import ProfileScreen from "../screens/Profile/ProfileScreen";
+import NewRecipeScreen from "../screens/Recipes/New/NewRecipeScreen";
 
 
 const Drawer = createDrawerNavigator();
@@ -26,16 +27,16 @@ const AppStack = () => {
             drawerContent={props => <CustomDrawer{...props} />}
         >
 
-             <Drawer.Screen
+            <Drawer.Screen
                 name='DashBoard'
                 component={Tabs}
                 options={{
-                    
+
                     drawerType: 'front',
                     title: "DashBoard",
                     headerShown: false,
                 }}
-            /> 
+            />
 
             <Drawer.Screen
                 name='Profile'
@@ -48,14 +49,25 @@ const AppStack = () => {
             />
 
             <Drawer.Screen
-            name="Support"
-            component={ContactSupportScreen}
-            options={{
-                drawerType: 'front',
-                title: "Support",
-                headerShown: false,
+                name="Support"
+                component={ContactSupportScreen}
+                options={{
+                    drawerType: 'front',
+                    title: "Support",
+                    headerShown: false,
 
-            }}
+                }}
+            />
+
+            <Drawer.Screen
+                name="NewRecipeScreen"
+                component={NewRecipeScreen}
+                options={{
+                    drawerType: 'front',
+                    title: "New Recipe",
+                    headerShown: false,
+
+                }}
             />
 
 

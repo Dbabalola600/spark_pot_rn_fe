@@ -10,6 +10,11 @@ import MainSettingsScreen from "../screens/Settings/MainSettingScreen";
 import PersonalJournalScreen from "../screens/Journals/Personal/PersonalJournalScreen";
 import SavedJournalScreen from "../screens/Journals/Saved/SavedJournalScreen";
 import DetailsFromApiScreen from "../screens/Recipes/Details/DetailsFromAPI";
+import DetailsFromDBScreen from "../screens/Journals/Details/DetailsFromDB";
+import NewRecipeScreen from "../screens/Recipes/New/NewRecipeScreen";
+import NewIngredientsScreen from "../screens/Recipes/New/NewIngredientsScreen";
+import NewInstructions from "../screens/Recipes/New/NewInstructions";
+import UploadPictureScreen from "../screens/Recipes/New/UploadPictureScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -19,7 +24,7 @@ const AuthStack = () => {
     return (
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
-            initialRouteName='Start'
+            initialRouteName='UploadPictureScreen'
         >
             <Stack.Screen
                 name="Welcome"
@@ -45,24 +50,49 @@ const AuthStack = () => {
             />
 
             <Stack.Screen
-            name="MainSettingsScreen"
-            component={MainSettingsScreen}
+                name="MainSettingsScreen"
+                component={MainSettingsScreen}
             />
             <Stack.Screen
-            name="PersonalJournalScreen"
-            component={PersonalJournalScreen}
+                name="PersonalJournalScreen"
+                component={PersonalJournalScreen}
             />
 
             <Stack.Screen
-            name="SavedJournalScreen"
-            component={SavedJournalScreen}
+                name="SavedJournalScreen"
+                component={SavedJournalScreen}
             />
             <Stack.Screen
-            name="DetailsFromApiScreen"
-            component={DetailsFromApiScreen}
+                name="DetailsFromApiScreen"
+                component={DetailsFromApiScreen}
             />
 
-            
+            <Stack.Screen
+                name="DetailsFromDBScreen"
+                component={DetailsFromDBScreen}
+            />
+
+            <Stack.Screen
+                name="NewRecipeScreen"
+                component={NewRecipeScreen}
+            />
+
+            <Stack.Screen
+                name="NewIngredientsScreen"
+                component={NewIngredientsScreen}
+            />
+              <Stack.Screen
+                name="NewInstructions"
+                component={NewInstructions}
+            />
+              <Stack.Screen
+                name="UploadPictureScreen"
+                component={UploadPictureScreen}
+            />
+
+
+
+
         </Stack.Navigator>
     )
 }

@@ -29,7 +29,7 @@ const BasicBackButtonLayout = ({ children, pageTitle }: BasicBackButtonLayoutPro
             onPress={() => (Platform.OS != "web" ? Keyboard.dismiss() : null)}
         >
             <ScrollView
-                style={apptw`bg-secondary   flex-1 shadow-md pt-10`}
+                style={apptw`bg-white   flex-1 shadow-md pt-10`}
                 // edges={["top", "left", "right"]}
             >
                 <Pressable onPress={() => navigation.goBack()} 

@@ -171,9 +171,11 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
 
                     :
 
-                    <View>
+                    <View
+                    style={apptw` `}
+                    >
                         <AppButton
-                            buttonStyle={apptw`my-5`}
+                            buttonStyle={apptw`my-5 fixed`}
 
                             text="Next"
                             onPress={Increase}

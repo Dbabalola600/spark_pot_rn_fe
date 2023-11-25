@@ -46,7 +46,7 @@ const DetailsFromApiScreen: React.FC<Props> = ({ route }) => {
     );
 
     // setInfo(data?.data.results)
-    console.log(data?.data.results[0].slug)
+    console.log(data?.data.results[0])
 
 
 
@@ -83,21 +83,27 @@ const DetailsFromApiScreen: React.FC<Props> = ({ route }) => {
 
                     </View>
 
-                    <View
-                    style={apptw`flex-row justify-between gap-x-4`}
-                    >
-                    <AppText style={apptw`text- `}>
+                    <AppText style={apptw`text-sm `}>
                         Time: {data?.data.results[0].total_time_string}
                     </AppText>
 
-                    <AppButton
-                    text="Add to Journal"
-                    textStyle={apptw`text-5`}
-                    buttonStyle={apptw`w-[40] p-2`}
-                    />
-                    </View>
-                  
 
+                    <View
+                        style={apptw`flex-row justify-between gap-x-4`}
+                    >
+
+                        <View>
+
+
+                        </View>
+                        <AppButton
+                            text="Add to Journal"
+                            textStyle={apptw`text-3`}
+                            buttonStyle={apptw`w-[30] p-2 mt-2`}
+                        />
+
+
+                    </View>
 
                     <View
                         style={apptw`pt-5`}

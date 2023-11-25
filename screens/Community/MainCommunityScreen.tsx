@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import LoggedInLayout from "../../components/Layout/LoggedLayout";
 import AppText from "../../components/Display/AppText";
+import SearchBar from "../../components/Input/SearchBar";
 
 
 
@@ -8,10 +9,11 @@ function MainCommunityScreen(){
     return(
         <LoggedInLayout pageTitle="">
             <View>
-                <AppText>
+                
 
-                MainCommunityScreen
-                </AppText>
+
+            <SearchBar />
+
             </View>
         </LoggedInLayout>
     )

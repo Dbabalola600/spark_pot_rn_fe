@@ -1,9 +1,8 @@
 import React from "react";
-import { GestureResponderEvent, Pressable, View,Image } from "react-native";
+import { GestureResponderEvent, Pressable, View, Image } from "react-native";
 import tw from "twrnc";
 import apptw from "../../../utils/lib/tailwind";
 import AppText from "../AppText";
-
 
 
 type BasicNoteProps = {
@@ -35,14 +34,27 @@ const BasicNoteDisplay = (props: BasicNoteProps) => {
         >
 
 
+            {props.image === '' || props.image === null ?
+
+                <View>
+                  <Image
+                  source={require("../../../assets/images/breakfast.png")}
+                  style={apptw`rounded-sm w-full h-25 justify-center`}
+                  />
+
+                </View> :
+                <View>
+                    <Image
+                        style={apptw`rounded-sm w-full h-25`}
+                        source={{ uri: `${props.image}` }}
+                    />
+                </View>
+
+            }
 
 
-                <Image
-                   style={apptw`rounded-sm w-full h-25`}
-                source={{ uri: `${props.image}`}}
-                />
-               
-           
+
+
 
 
 

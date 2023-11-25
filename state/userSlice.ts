@@ -12,6 +12,7 @@ const initialState: UserState = {
     image: "",
     lName: "",
     fName: "",
+
     errorMessage: "",
     isError: false,
     isLoading: false,
