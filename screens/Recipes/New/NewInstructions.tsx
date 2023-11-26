@@ -1,7 +1,7 @@
 import { TextInput, View } from "react-native"
 import BasicBackButtonLayout from "../../../components/Layout/BasicBackButtonLayout"
 import { RootStackParamList } from "../../allroutes"
-import { RouteProp } from "@react-navigation/native"
+import { RouteProp, useNavigation } from "@react-navigation/native"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import apptw from "../../../utils/lib/tailwind"
@@ -20,7 +20,7 @@ const NewInstructions: React.FC<Props> = ({ route }) => {
     const [instructions, setInstructions] = useState<string[]>(['']);
     const { register, handleSubmit, setValue, watch, control, formState: { errors } } = useForm()
 
-
+    const navigation = useNavigation()
 
     const Increase = () => {
         setCounter(counter + 1)
@@ -56,6 +56,7 @@ const NewInstructions: React.FC<Props> = ({ route }) => {
         Object.assign(newInfo, instructions)
 
         console.log(newInfo)
+        navigation.navigate("UploadPictureScreen", { reqData: newInfo })
     })
 
     return (
@@ -84,7 +85,7 @@ const NewInstructions: React.FC<Props> = ({ route }) => {
                     />
                 ))}
 
-                
+
                 <View
                     style={apptw`flex-row justify-between w-1/2 gap-x-2`}
                 >

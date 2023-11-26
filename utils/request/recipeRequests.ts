@@ -23,7 +23,7 @@ const recipeRequest = {
             status: 0,
             data: {},
             message: ""
-        }  
+        }
 
 
 
@@ -35,36 +35,105 @@ const recipeRequest = {
                 page: page
             }
         }
-        ) .then((response) => {
+        ).then((response) => {
             res.status = response.data.status;
             res.data = response.data.data;
             res.message = response.data.message;
             return res;
         })
-        .catch((err) => {
-            if (err.response) {
-                res.status = err.response.status;
-                res.data = err.response.data;
-            } else {
-                res.status = 500;
-                res.data = {};
-            }
-            res.message = err.message;
-            return res;
-        });
+            .catch((err) => {
+                if (err.response) {
+                    res.status = err.response.status;
+                    res.data = err.response.data;
+                } else {
+                    res.status = 500;
+                    res.data = {};
+                }
+                res.message = err.message;
+                return res;
+            });
 
-        
+
+    },
+
+
+    createNewRecipe: async (
+        userId: any,
+        image: any,
+        servings: any ,
+        ingredients: any,
+        name: any,
+        instructions: any ,
+        date_added: any,
+        total_time: any,
+        description: any,
+        // ispublic: any
+    ) => {
+
+        let newInfo = {
+            custom:true,
+            userId: userId,
+            image: image,
+            servings: servings ,
+            ingredients: ingredients,
+            name: name,
+            instructions: instructions ,
+            date_added: date_added,
+            total_time: total_time,
+            description: description,
+            public: false
+        }
+
+
+        const body = newInfo
+        let res: {
+            status: number;
+            data: any;
+            message: string
+        } = {
+            status: 0,
+            data: {},
+            message: ""
+        }
+
+
+        return await axios
+            .post(
+                BASE_URL +
+                "/recipe/newRecipe",
+                body,
+                {
+                    headers: {
+                    },
+                    method: "POST"
+                }
+            )
+
+            .then((response) => {
+                res.status = response.data.status;
+                res.data = response.data;
+                res.message = response.data.message;
+                return res;
+            })
+            .catch((err) => {
+                if (err.response) {
+                    res.status = err.response.status;
+                    res.data = err.response.data;
+                } else {
+                    res.status = 500;
+                    res.data = {};
+                }
+                res.message = err.message;
+                return res;
+            });
     }
-
-
-
 
 
 }
 
 
 
-async function myFunc(){
+async function myFunc() {
     console.log(await recipeRequest.getAllRecipes("", 5))
 }
 

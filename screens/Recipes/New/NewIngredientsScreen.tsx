@@ -22,7 +22,7 @@ const NewIngredientsScreen: React.FC<Props> = ({ route }) => {
     const [ingredients, setIngredients] = useState<string[]>(['']);
     const { register, handleSubmit, setValue, watch, control, formState: { errors } } = useForm()
 
-const navigation = useNavigation()
+    const navigation = useNavigation()
 
     const Increase = () => {
         setCounter(counter + 1)
@@ -60,7 +60,7 @@ const navigation = useNavigation()
 
         console.log(newInfo)
 
-        navigation.navigate("NewInstructions", {reqData: newInfo})
+        navigation.navigate("NewInstructions", { reqData: newInfo })
     })
 
 

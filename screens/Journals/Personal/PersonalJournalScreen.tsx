@@ -102,7 +102,7 @@ export default function PersonalJournalScreen({ navigation }: PersonalJournalPro
 
                                 data={data?.data}
                                 renderItem={({ item }) => (<BasicNoteDisplay
-                                    onPress={() => { }}
+                                    onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
                                     image={item.image}
                                     desciption={item.name}
                                 />)}

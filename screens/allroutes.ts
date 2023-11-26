@@ -21,4 +21,5 @@ export type RootStackParamList ={
     NewIngredientsScreen: {reqData: any}
     NewInstructions: {reqData:any}
     UploadPictureScreen: {reqData:any}
+    ReviewNewScreen: {reqData:any}
 }

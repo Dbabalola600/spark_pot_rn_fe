@@ -15,6 +15,7 @@ import NewRecipeScreen from "../screens/Recipes/New/NewRecipeScreen";
 import NewIngredientsScreen from "../screens/Recipes/New/NewIngredientsScreen";
 import NewInstructions from "../screens/Recipes/New/NewInstructions";
 import UploadPictureScreen from "../screens/Recipes/New/UploadPictureScreen";
+import ReviewNewScreen from "../screens/Recipes/New/ReviewNewScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -24,7 +25,7 @@ const AuthStack = () => {
     return (
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
-            initialRouteName='UploadPictureScreen'
+            initialRouteName='Start'
         >
             <Stack.Screen
                 name="Welcome"
@@ -81,13 +82,18 @@ const AuthStack = () => {
                 name="NewIngredientsScreen"
                 component={NewIngredientsScreen}
             />
-              <Stack.Screen
+            <Stack.Screen
                 name="NewInstructions"
                 component={NewInstructions}
             />
-              <Stack.Screen
+            <Stack.Screen
                 name="UploadPictureScreen"
                 component={UploadPictureScreen}
+            />
+
+            <Stack.Screen
+                name="ReviewNewScreen"
+                component={ReviewNewScreen}
             />
 
 
