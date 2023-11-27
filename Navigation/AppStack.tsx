@@ -33,7 +33,7 @@ const AppStack = () => {
                 options={{
 
                     drawerType: 'front',
-                    title: "DashBoard",
+                    title: "",
                     headerShown: false,
                 }}
             />
@@ -59,7 +59,7 @@ const AppStack = () => {
                 }}
             />
 
-            <Drawer.Screen
+            {/* <Drawer.Screen
                 name="NewRecipeScreen"
                 component={NewRecipeScreen}
                 options={{
@@ -68,7 +68,7 @@ const AppStack = () => {
                     headerShown: false,
 
                 }}
-            />
+            /> */}
 
 
 

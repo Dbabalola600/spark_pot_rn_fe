@@ -40,14 +40,14 @@ const LoggedInLayout = ({ children,pageTitle }: LoggedInLayoutProp) => {
 
                 <View style={tw`flex-row justify-between py-4 px-6`} >
 
-                    <Pressable onPress={() => navigation.toggleDrawer()} style={tw.style("",)}>
+                    {/* <Pressable onPress={() => navigation.toggleDrawer()} style={tw.style("",)}>
                         <SimpleLineIcons
                             name="menu"
                             size={20}
                             style={tw`bg-white`}
                             color="black"
                         />
-                    </Pressable>
+                    </Pressable> */}
 
                     <View>
                         <AppText style={apptw`  text-2xl text-center`}>

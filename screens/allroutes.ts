@@ -22,4 +22,5 @@ export type RootStackParamList ={
     NewInstructions: {reqData:any}
     UploadPictureScreen: {reqData:any}
     ReviewNewScreen: {reqData:any}
+    UpdatePaswordScreen: undefined
 }

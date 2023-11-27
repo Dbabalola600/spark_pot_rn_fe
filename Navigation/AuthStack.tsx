@@ -16,6 +16,10 @@ import NewIngredientsScreen from "../screens/Recipes/New/NewIngredientsScreen";
 import NewInstructions from "../screens/Recipes/New/NewInstructions";
 import UploadPictureScreen from "../screens/Recipes/New/UploadPictureScreen";
 import ReviewNewScreen from "../screens/Recipes/New/ReviewNewScreen";
+import Tabs from "./Tabs";
+import ProfileScreen from "../screens/Profile/ProfileScreen";
+import ContactSupportScreen from "../screens/Support/ContactSupportScreen";
+import UpdatePaswordScreen from "../screens/Settings/UpdatePasswordScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -47,7 +51,18 @@ const AuthStack = () => {
 
             <Stack.Screen
                 name="DashBoardScreen"
-                component={AppStack}
+                component={Tabs}
+            />
+
+            <Stack.Screen
+                name="ProfileScreen"
+                component={ProfileScreen}
+            />
+
+
+            <Stack.Screen
+                name="ContactSupportScreen"
+                component={ContactSupportScreen}
             />
 
             <Stack.Screen
@@ -95,6 +110,14 @@ const AuthStack = () => {
                 name="ReviewNewScreen"
                 component={ReviewNewScreen}
             />
+
+            <Stack.Screen
+                name="UpdatePaswordScreen"
+                component={UpdatePaswordScreen}
+            />
+
+
+
 
 
 

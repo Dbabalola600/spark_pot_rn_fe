@@ -36,19 +36,19 @@ export default function ProfileScreen() {
 
     }
 
-    const navigatetoFirstnameEdit=()=>{
-console.log("edit fname")
+    const navigatetoFirstnameEdit = () => {
+        console.log("edit fname")
     }
 
-    const navigatetoLastnameEdit=()=>{
+    const navigatetoLastnameEdit = () => {
         console.log("edit lname")
     }
 
-    const navigatetoEmailEdit=()=>{
+    const navigatetoEmailEdit = () => {
         console.log("edit email")
     }
 
-    const navigatetoUsernameEdit=()=>{
+    const navigatetoUsernameEdit = () => {
         console.log("edit username")
     }
 
@@ -116,20 +116,20 @@ console.log("edit fname")
 
                         </AppText>
 
-                        <PressAppText
+                        {/* <PressAppText
                             style={apptw`font-bold`}
                             onPress={navigatetoUsernameEdit}
                         >
 
                             <AntDesign name="edit" size={24} color="black" />
 
-                        </PressAppText>
+                        </PressAppText> */}
 
 
                     </View>
 
                     <View
-                        style={apptw`font-bold bg-white rounded-full px-5 py-2 mt-2`}
+                        style={apptw`font-bold bg-gray-100 rounded-full px-5 py-2 mt-2`}
                     >
                         <AppText
                         >
@@ -144,7 +144,7 @@ console.log("edit fname")
                 <View
                     style={apptw`mb-5`}
                 >
-                   <View
+                    <View
                         style={apptw`justify-between flex-row`}
                     >
 
@@ -156,7 +156,7 @@ console.log("edit fname")
 
                         </AppText>
 
-                        <PressAppText
+                        {/* <PressAppText
                             style={apptw`font-bold`}
 
                             onPress={navigatetoFirstnameEdit}
@@ -164,12 +164,12 @@ console.log("edit fname")
 
                             <AntDesign name="edit" size={24} color="black" />
 
-                        </PressAppText>
+                        </PressAppText> */}
 
 
                     </View>
                     <View
-                        style={apptw`font-bold bg-white rounded-full px-5 py-2 mt-2`}
+                        style={apptw`font-bold bg-gray-100 rounded-full px-5 py-2 mt-2`}
                     >
                         <AppText
                         >
@@ -184,33 +184,33 @@ console.log("edit fname")
                 <View
                     style={apptw`mb-5`}
                 >
-                   <View
+                    <View
                         style={apptw`justify-between flex-row`}
                     >
 
                         <AppText
                             style={apptw`font-bold`}
 
-                            
+
                         >
                             Lastname
 
 
                         </AppText>
 
-                        <PressAppText
+                        {/* <PressAppText
                             style={apptw`font-bold`}
                             onPress={navigatetoLastnameEdit}
                         >
 
                             <AntDesign name="edit" size={24} color="black" />
 
-                        </PressAppText>
+                        </PressAppText> */}
 
 
                     </View>
                     <View
-                        style={apptw`font-bold bg-white rounded-full px-5 py-2 mt-2`}
+                        style={apptw`font-bold bg-gray-100 rounded-full px-5 py-2 mt-2`}
                     >
                         <AppText
                         >
@@ -224,7 +224,7 @@ console.log("edit fname")
                 <View
                     style={apptw`mb-5`}
                 >
-                  <View
+                    <View
                         style={apptw`justify-between flex-row`}
                     >
 
@@ -236,21 +236,22 @@ console.log("edit fname")
 
                         </AppText>
 
-                        <PressAppText
+                        {/* <PressAppText
                             style={apptw`font-bold`}
                             onPress={navigatetoEmailEdit}
                         >
 
                             <AntDesign name="edit" size={24} color="black" />
 
-                        </PressAppText>
+                        </PressAppText> */}
 
 
                     </View>
                     <View
-                        style={apptw`font-bold bg-white rounded-full px-5 py-2 mt-2`}
+                        style={apptw`font-bold bg-gray-100 rounded-full px-5 py-2 mt-2`}
                     >
                         <AppText
+
                         >
                             {user?.email}
                         </AppText>
@@ -260,7 +261,7 @@ console.log("edit fname")
 
 
 
-                <View
+                {/* <View
                     style={apptw`mb-5`}
                 >
                     <AppText
@@ -277,7 +278,7 @@ console.log("edit fname")
                             https://mood-pop.vercel.app/Users/{user?.userName}
                         </PressAppText>
                     </View>
-                </View>
+                </View> */}
 
 
             </ScrollView>
