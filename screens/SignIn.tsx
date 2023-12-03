@@ -45,6 +45,7 @@ const SignIn = ({ navigation }: SignInScreen) => {
     useEffect(() => {
         if (user.isSuccess && !user.isLoading) {
             navigatetoDashBoard()
+            // console.log("success")
         }
         if (user.isError && !user.isLoading) {
             alert(user.loginErrorMessage);
@@ -53,14 +54,9 @@ const SignIn = ({ navigation }: SignInScreen) => {
     }, [user.isError, user.isLoading, user.isSuccess,])
 
     const onSubmit = handleSubmit(async (data) => {
-        // console.log(data.password)
-
-        // const response = await userRequest.userLogin(data.userName, data.password)
-        // console.log(response)
-
-
-        // navigatetoDashBoard()
+      
         setButtonLoading(true)
+
 
         const response = await dispatch(
             loginUser({ password: data.password, userName: data.userName })

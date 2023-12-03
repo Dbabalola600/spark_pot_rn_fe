@@ -11,14 +11,49 @@ import PressAppText from "../../components/Display/PressAppText";
 import { AntDesign } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
 import * as Clipboard from 'expo-clipboard';
+import { useState, useEffect } from "react";
+import { SecureStorage } from "../../services/singleton/secureStorage";
 
 
 
 
 
 export default function ProfileScreen() {
-    const { user } = useSelector(authSelector);
-    console.log(user.image)
+    // const { user } = useSelector(authSelector);
+    // console.log(user.image)
+    const [user, Setuser] = useState<any>([]);
+
+
+    const showinfo = async () => {
+        const userId = await SecureStorage.getInst().getValueFor("userId");
+        const fName = await SecureStorage.getInst().getValueFor("fName");
+        const lName = await SecureStorage.getInst().getValueFor("lName");
+        const email = await SecureStorage.getInst().getValueFor("email");
+        const userName = await SecureStorage.getInst().getValueFor("userName");
+        const image = await SecureStorage.getInst().getValueFor("image");
+       
+        Setuser({
+            userid: userId,
+            userName: userName,
+            fName: fName,
+            lName: lName,
+            email: email,
+            image:image 
+        });
+
+        console.log(user)
+    }
+
+
+    useEffect(() => {
+        showinfo()
+    }, [])
+
+
+
+
+
+
 
 
     const ClipboardText = `https://mood-pop.vercel.app/Users/${user?.userName}`

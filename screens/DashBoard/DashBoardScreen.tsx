@@ -16,6 +16,8 @@ import { BASE_URL, REC_API_URL } from "../../utils/lib/envvar"
 import AppButton from "../../components/Display/AppButton"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../allroutes"
+import { userGetUserInfo } from "../../services/hooks/getUserInfo"
+import { SecureStorage } from "../../services/singleton/secureStorage"
 
 
 
@@ -39,11 +41,16 @@ type DashBoardProps = NativeStackScreenProps<RootStackParamList, "DashBoardScree
 
 function DashBoardScreen({ navigation }: DashBoardProps) {
     const [greeting, setGreeting] = useState("")
-    const { user } = useSelector(authSelector);
+    // const { user } = useSelector(authSelector);
     const [counter, setCounter] = useState(1)
     const scrollViewRef = useRef(null);
     const flatGridRef = useRef(null);
     const [useSearch, SetSearch] = useState("")
+    // const user = userGetUserInfo()
+    const [user, Setuser] = useState<any>([]);
+
+
+
 
     useEffect(() => {
         const setGreetingBasedOnTime = () => {
@@ -59,10 +66,40 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
         };
         // console.log(user)
         setGreetingBasedOnTime();
-        // Showinfo()
+
+
+
 
 
     }, []);
+
+
+    // console.log(user.userid)
+
+
+
+    const showinfo = async () => {
+        let fName = await SecureStorage.getInst().getValueFor("fName");
+        let lName = await SecureStorage.getInst().getValueFor("lName");
+
+
+        console.log(lName)
+
+        Setuser({
+
+            fName: fName,
+            lName: lName,
+
+        });
+
+        console.log(user)
+    }
+
+
+    useEffect(() => {
+        showinfo()
+    }, [])
+
 
 
 
@@ -118,7 +155,7 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
                 style={apptw`px-4 mb-10 `}>
 
                 <AppText>
-                    {greeting} {user.fName} {user.lName}
+                    {greeting} {user?.fName} {user?.lName}
                 </AppText>
 
                 <SearchBar

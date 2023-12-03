@@ -5,6 +5,7 @@ import AppButton from "../../components/Display/AppButton";
 import apptw from "../../utils/lib/tailwind";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../allroutes";
+import { SecureStorage } from "../../services/singleton/secureStorage";
 
 
 
@@ -30,6 +31,13 @@ function MainSettingsScreen({ navigation }: MainSettingsProps) {
 
     const navigatetoUpdatePassword = () => {
         navigation.navigate("UpdatePaswordScreen")
+    }
+
+
+    const loggedOut = () => {
+        SecureStorage.getInst().clearAll()
+        navigation.navigate("Start")
+
     }
     return (
         <BasicBackButtonLayout pageTitle="Settings">
@@ -62,10 +70,11 @@ function MainSettingsScreen({ navigation }: MainSettingsProps) {
                     onPress={navigatetoUpdatePassword}
                 />
 
-                {/* <AppButton
-                    text="Update Username"
+                <AppButton
+                    text="Log Out"
+                    onPress={loggedOut}
                 />
- */}
+
 
 
             </View>

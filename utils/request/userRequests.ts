@@ -133,8 +133,8 @@ const userRequest = {
 
 
 async function myFunc() {
-    console.log(await userRequest.createAccount(
-        "jae","password","jaeger","sparks","jaeger.sparks" 
+    console.log(await userRequest.userLogin(
+        "jae","password"
     )
     )
 

@@ -10,7 +10,8 @@ import apptw from "../../../utils/lib/tailwind"
 import AppText from "../../../components/Display/AppText"
 import { AppDispatch } from "../../../state/store"
 import recipeRequest from "../../../utils/request/recipeRequests"
-
+import { SecureStorage } from "../../../services/singleton/secureStorage"
+import Toast from "react-native-toast-message";
 
 
 
@@ -33,8 +34,9 @@ const ReviewNewScreen: React.FC<Props> = ({ route }) => {
     }
 
     const submitNewRec = async () => {
+        const userId = await SecureStorage.getInst().getValueFor("userId");
         const response = await recipeRequest.createNewRecipe(
-            user._id,
+            userId,
             route.params.reqData.image,
             route.params.reqData.servings,
             route.params.reqData.ingredients,
@@ -46,6 +48,12 @@ const ReviewNewScreen: React.FC<Props> = ({ route }) => {
         ).then(res => {
             console.log(res);
             if (res.status === 200) {
+                Toast.show({
+
+                    type: 'success',
+                    text1: 'Added to Journal',
+                    // text2: 'iwoiovw'
+                });
                 navigatetoDashBoard()
             }
         });

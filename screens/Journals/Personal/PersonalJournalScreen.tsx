@@ -15,6 +15,9 @@ import { useSelector } from "react-redux";
 import { authSelector } from "../../../state/userSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../allroutes";
+import { useEffect, useState } from "react";
+import { SecureStorage } from "../../../services/singleton/secureStorage";
+import axios from "axios";
 
 
 
@@ -37,13 +40,46 @@ type PersonalJournalProps = NativeStackScreenProps<RootStackParamList, "Personal
 export default function PersonalJournalScreen({ navigation }: PersonalJournalProps) {
     const { user } = useSelector(authSelector);
 
-    const { data, error, isLoading } = useSWR<MyData>(
-        `${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${user._id}`,
-        fetcher
-    );
+    const [userinfo, Setuser] = useState<any>([]);
+    const [data, setData] = useState<any>([])
 
 
-    console.log("here", data)
+
+
+    const getuser = async () => {
+        let userId = await SecureStorage.getInst().getValueFor("userId");
+
+
+        const response = await axios.get(`${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${userId}`).then((res) => {
+            setData(res.data.data)
+            console.log(res.data.data)
+        })
+
+        // console.log(data)
+
+    }
+
+
+    useEffect(() => {
+        getuser()
+    }, [])
+
+
+
+
+
+
+
+
+
+    // const { data, error, isLoading } = useSWR<MyData>(
+    //     `${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${user._id}`,
+    //     fetcher
+    // );
+
+
+
+
     return (
         <BasicBackButtonLayout pageTitle="Personal Recipes">
 
@@ -79,7 +115,7 @@ export default function PersonalJournalScreen({ navigation }: PersonalJournalPro
 
 
 
-                {data?.data.length < 1 ?
+                {data?.length < 1 ?
 
                     <View style={apptw`justify-items-center text-center`}>
                         <Image
@@ -100,7 +136,7 @@ export default function PersonalJournalScreen({ navigation }: PersonalJournalPro
 
                             <FlatGrid
 
-                                data={data?.data}
+                                data={data}
                                 renderItem={({ item }) => (<BasicNoteDisplay
                                     onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
                                     image={item.image}

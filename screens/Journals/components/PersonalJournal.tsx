@@ -9,6 +9,9 @@ import { authSelector } from "../../../state/userSlice";
 import useSWR from "swr";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../../../utils/lib/envvar";
+import { useEffect, useState } from "react";
+import { SecureStorage } from "../../../services/singleton/secureStorage";
+import axios from "axios";
 
 
 interface MyData {
@@ -27,7 +30,8 @@ const fetcher = async (url: string): Promise<MyData> => {
 
 
 export default function PersonalJournal() {
-
+    const [user, Setuser] = useState<any>([]);
+    const [data, setData] = useState<any>([])
     const navigation = useNavigation();
 
     const navigatetoPersonalScreen = () => {
@@ -35,12 +39,29 @@ export default function PersonalJournal() {
     }
 
 
-    const { user } = useSelector(authSelector);
+    const showinfo = async () => {
+        let userId = await SecureStorage.getInst().getValueFor("userId");
+       
 
-    const { data, error, isLoading } = useSWR<MyData>(
-        `${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${user._id}`,
-        fetcher
-    );
+        const response = await axios.get(`${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${userId}`).then((res) => {
+            setData(res.data.data)
+            // console.log(res.data.data)
+        })
+    }
+
+
+    useEffect(() => {
+        showinfo()
+    }, [])
+
+
+
+    // const { user } = useSelector(authSelector);
+
+    // const { data, error, isLoading } = useSWR<MyData>(
+    //     `${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${user?.userId}`,
+    //     fetcher
+    // );
 
 
 
@@ -70,7 +91,7 @@ export default function PersonalJournal() {
             </View>
 
 
-            {data?.data.length < 1 ?
+            {data?.length < 1 ?
 
 
                 <View style={apptw`justify-items-center text-center`}>
@@ -80,12 +101,10 @@ export default function PersonalJournal() {
                     />
                 </View> :
                 <View>
-                    <AppText>
-                        {data?.data._id}
-                    </AppText>
+
                     <FlatGrid
                         // itemDimension={150}
-                        data={data?.data?.slice(0, 4)}
+                        data={data.slice(0, 4)}
                         renderItem={({ item }) => (<BasicNoteDisplay
                             onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
                             image={item.image}

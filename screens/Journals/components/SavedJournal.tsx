@@ -11,6 +11,9 @@ import { useSelector } from "react-redux";
 import { authSelector } from "../../../state/userSlice";
 import useSWR from "swr";
 import { BASE_URL, REC_API_URL } from "../../../utils/lib/envvar";
+import { SecureStorage } from "../../../services/singleton/secureStorage";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 type SavedJournal = NativeStackScreenProps<
     RootStackParamList,
@@ -35,19 +38,35 @@ const fetcher = async (url: string): Promise<MyData> => {
 
 export default function SavedJournal() {
     const navigation = useNavigation();
-
+    const [user, Setuser] = useState<any>([]);
+    const [data, setData] = useState<any>([])
     const navigatetoSavedScreen = () => {
         navigation.navigate("SavedJournalScreen")
     }
 
 
 
-    const { user } = useSelector(authSelector);
+    // const { user } = useSelector(authSelector);
 
-    const { data, error, isLoading } = useSWR<MyData>(
-        `${BASE_URL}/recipe/getAllSavedRecipe/?userId=${user._id}`,
-        fetcher
-    );
+    const showinfo = async () => {
+        let userId = await SecureStorage.getInst().getValueFor("userId");
+        const response = await axios.get(`${BASE_URL}/recipe/getAllSavedRecipe/?userId=${userId}`).then((res) => {
+            setData(res.data.data)
+            console.log(res.data.data)
+        })
+
+
+    }
+
+
+    useEffect(() => {
+        showinfo()
+    }, [])
+
+    // const { data, error, isLoading } = useSWR<MyData>(
+    //     `${BASE_URL}/recipe/getAllSavedRecipe/?userId=${user?.userId}`,
+    //     fetcher
+    // );
 
 
 
@@ -89,7 +108,7 @@ export default function SavedJournal() {
 
             </View>
 
-            {data?.data.length < 1 ?
+            {data.length < 1 ?
 
 
                 <View style={apptw`justify-items-center text-center`}>
@@ -101,7 +120,7 @@ export default function SavedJournal() {
                 <View>
                     <FlatGrid
                         // itemDimension={150}
-                        data={data?.data?.slice(0, 4)}
+                        data={data.slice(0, 4)}
                         renderItem={({ item }) => (<BasicNoteDisplay
                             onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
                             image={`${REC_API_URL}${item.image}`} 

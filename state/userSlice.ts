@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import userRequest from '../utils/request/userRequests';
 import { RootState } from './store';
+import { SecureStorage } from '../services/singleton/secureStorage';
 
 
 
@@ -33,11 +34,24 @@ export const loginUser = createAsyncThunk(
         try {
             const saveResponse = await userRequest.userLogin(userName, password)
             console.log("slice")
-            // console.log(saveResponse.data)
+
 
             if (saveResponse.data.message === "success") {
 
-                // let UserInfo: UserFull = saveResponse.data.data as UserFull
+
+                await SecureStorage.getInst().save("userId", saveResponse.data.data._id)
+                await SecureStorage.getInst().save("email", saveResponse.data.data.email)
+                await SecureStorage.getInst().save("fName", saveResponse.data.data.fName)
+                await SecureStorage.getInst().save("lName", saveResponse.data.data.lName)
+                await SecureStorage.getInst().save("image", saveResponse.data.data.image)
+                await SecureStorage.getInst().save("userName", saveResponse.data.data.userName)
+
+
+
+
+                let result = await SecureStorage.getInst().getValueFor("userId")
+                // console.log("stored",result)
+
                 let UserInfo = saveResponse.data.data
                 return {
                     allUserInformation: UserInfo,
@@ -45,7 +59,7 @@ export const loginUser = createAsyncThunk(
                     saveResponse
                 }
                 // console.log(UserResponse.status)
-               
+
             } else {
 
                 // console.log(saveResponse.data)
@@ -89,12 +103,12 @@ const UserInformation = (
 ) => {
 
 
-  state._id= allUserInformation._id
-  state.fName= allUserInformation.fName
-  state.email= allUserInformation.email
-  state.image = allUserInformation.image
-  state.lName =allUserInformation.lName
-  state.userName = allUserInformation.userName
+    state._id = allUserInformation._id
+    state.fName = allUserInformation.fName
+    state.email = allUserInformation.email
+    state.image = allUserInformation.image
+    state.lName = allUserInformation.lName
+    state.userName = allUserInformation.userName
     return state;
 };
 
@@ -162,23 +176,23 @@ const authSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.loginErrorMessage = ""
-                console.log(" success payload here")
+                // console.log(" success payload here")
                 // console.log(action.payload);
                 const allUserInformation = action.payload
                     ?.allUserInformation as UserFull;
                 return UserInformation(state, allUserInformation);
             })
-            // .addCase(LogoutUser.fulfilled, (state, action) => {
-            //     state.isLoading = false;
-            //     state.isError = false;
-            //     state.isSuccess = true;
+        // .addCase(LogoutUser.fulfilled, (state, action) => {
+        //     state.isLoading = false;
+        //     state.isError = false;
+        //     state.isSuccess = true;
 
-            //     console.log("here")
-            //     console.log(action.payload);
-            //     // const allUserInformation = action.payload
-            //     //     ?.allUserInformation as UserFull;
-            //     return defaultAuth(state);
-            // });
+        //     console.log("here")
+        //     console.log(action.payload);
+        //     // const allUserInformation = action.payload
+        //     //     ?.allUserInformation as UserFull;
+        //     return defaultAuth(state);
+        // });
 
     },
 
@@ -186,7 +200,7 @@ const authSlice = createSlice({
 
 
 export const { setAuthStateTokens, clearAuthState, deleteAuthItem } =
-authSlice.actions;
+    authSlice.actions;
 
 
 

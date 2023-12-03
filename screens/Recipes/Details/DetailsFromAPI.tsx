@@ -13,6 +13,7 @@ import recipeRequest from "../../../utils/request/recipeRequests";
 import { authSelector } from "../../../state/userSlice";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { SecureStorage } from "../../../services/singleton/secureStorage";
 
 
 
@@ -57,15 +58,16 @@ const DetailsFromApiScreen: React.FC<Props> = ({ route }) => {
 
     // setInfo(data?.data.results)
 
-   
 
-  
+
+
 
 
     const addNew = async () => {
+        const userId = await SecureStorage.getInst().getValueFor("userId");
         console.log(data?.data?.results[0].slug)
         const response = await recipeRequest.addtoJournalfromAPI(
-            user._id,
+            userId,
             data?.data?.results[0].image_path,
             data?.data?.results[0].servings,
             data?.data?.results[0].ingredients,

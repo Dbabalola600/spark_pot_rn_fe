@@ -3,12 +3,17 @@ import BasicBackButtonLayout from "../../../components/Layout/BasicBackButtonLay
 import AppText from "../../../components/Display/AppText";
 import { authSelector } from "../../../state/userSlice";
 import useSWR from "swr";
-import { BASE_URL } from "../../../utils/lib/envvar";
+import { BASE_URL, REC_API_URL } from "../../../utils/lib/envvar";
 import { useSelector } from "react-redux";
 import apptw from "../../../utils/lib/tailwind";
 import SearchBar from "../../../components/Input/SearchBar";
 import { FlatGrid } from "react-native-super-grid";
 import BasicNoteDisplay from "../../../components/Display/Notes/BasicNoteDisplay";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { SecureStorage } from "../../../services/singleton/secureStorage";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../allroutes";
 
 
 
@@ -26,14 +31,42 @@ const fetcher = async (url: string): Promise<MyData> => {
 };
 
 
-export default function SavedJournalScreen() {
+type SavedJournal = NativeStackScreenProps<
+    RootStackParamList,
+    "SavedJournalScreen"
+>
 
-    const { user } = useSelector(authSelector);
 
-    const { data, error, isLoading } = useSWR<MyData>(
-        `${BASE_URL}/recipe/getAllSavedRecipe/?userId=${user._id}`,
-        fetcher
-    );
+export default function SavedJournalScreen({navigation}:SavedJournal) {
+    const [data, setData] = useState<any>([])
+    // const { user } = useSelector(authSelector);
+
+    // const { data, error, isLoading } = useSWR<MyData>(
+    //     `${BASE_URL}/recipe/getAllSavedRecipe/?userId=${user._id}`,
+    //     fetcher
+    // );
+
+    const getuser = async () => {
+        let userId = await SecureStorage.getInst().getValueFor("userId");
+
+
+        const response = await axios.get(`${BASE_URL}/recipe/getAllSavedRecipe/?userId=${userId}`).then((res) => {
+            setData(res.data.data)
+            console.log(res.data.data)
+        })
+
+        // console.log(data)
+
+    }
+
+
+    useEffect(() => {
+        getuser()
+    }, [])
+
+
+
+
 
 
     return (
@@ -44,7 +77,7 @@ export default function SavedJournalScreen() {
             >
 
 
-                {data?.data.length < 1 ?
+                {data?.length < 1 ?
 
                     <View style={apptw`justify-items-center text-center`}>
                         <Image
@@ -65,10 +98,10 @@ export default function SavedJournalScreen() {
 
                             <FlatGrid
 
-                                data={data?.data}
+                                data={data}
                                 renderItem={({ item }) => (<BasicNoteDisplay
-                                    onPress={() => { }}
-                                    image={item.image}
+                                    onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
+                                    image={`${REC_API_URL}${item.image}`} 
                                     desciption={item.name}
                                 />)}
                             />
