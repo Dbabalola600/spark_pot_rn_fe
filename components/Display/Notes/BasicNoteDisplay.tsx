@@ -25,7 +25,7 @@ const BasicNoteDisplay = (props: BasicNoteProps) => {
             style={({ pressed }) =>
                 apptw.style(
                     `${pressed ? "bg-opacity-75" : "bg-opacity-100"
-                    } bg-textField w-full h-50  rounded-lg `,
+                    } bg-textField w-full h-55  rounded-lg flex `,
                     // props?.buttonStyle
                 )
             }
@@ -36,7 +36,7 @@ const BasicNoteDisplay = (props: BasicNoteProps) => {
 
             {props.image === '' || props.image === null ?
 
-                <View>
+                <View style={apptw`w-full h-25`} >
                   <Image
                   source={require("../../../assets/images/breakfast.png")}
                   style={apptw`rounded-sm w-full h-25 justify-center`}
@@ -58,7 +58,7 @@ const BasicNoteDisplay = (props: BasicNoteProps) => {
 
 
 
-            <AppText style={apptw`text-center`}>
+            <AppText style={apptw`text-center text-sm `}>
                 {props.desciption}
             </AppText>
 

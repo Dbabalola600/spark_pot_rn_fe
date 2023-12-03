@@ -58,6 +58,8 @@ const SignIn = ({ navigation }: SignInScreen) => {
         // const response = await userRequest.userLogin(data.userName, data.password)
         // console.log(response)
 
+
+        // navigatetoDashBoard()
         setButtonLoading(true)
 
         const response = await dispatch(

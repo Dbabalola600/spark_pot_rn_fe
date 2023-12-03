@@ -56,7 +56,7 @@ export default function PersonalJournal() {
                 <AppText
                     style={apptw`underline text-primary`}
                 >
-                    Personal Journal
+                    Personal Recipes
                 </AppText>
 
 

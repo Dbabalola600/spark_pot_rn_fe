@@ -47,6 +47,9 @@ const DetailsFromDBScreen: React.FC<Props> = ({ route }) => {
 
 
 
+    
+
+
 
     return (
         <BasicBackButtonLayout pageTitle="">
@@ -166,7 +169,7 @@ const DetailsFromDBScreen: React.FC<Props> = ({ route }) => {
 
 
                         <View>
-                            {data?.data.slug ?
+                            {data?.data.slugId ?
                                 <View
                                     style={apptw`pt-5`}
                                 >

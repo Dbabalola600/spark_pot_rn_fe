@@ -45,7 +45,7 @@ export default function PersonalJournalScreen({ navigation }: PersonalJournalPro
 
     console.log("here", data)
     return (
-        <BasicBackButtonLayout pageTitle="Personal Journal">
+        <BasicBackButtonLayout pageTitle="Personal Recipes">
 
 
 

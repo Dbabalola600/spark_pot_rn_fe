@@ -28,7 +28,7 @@ const AppStack = () => {
         >
 
             <Drawer.Screen
-                name='DashBoard'
+                name='DashBoardScreen'
                 component={Tabs}
                 options={{
 

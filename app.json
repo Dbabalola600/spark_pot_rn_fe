@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "Omni-nutrient",
+    "name": "Spark Pot",
     "slug": "Omni-nutrient",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo/logo_long.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#808080"
     },
     "plugins": [
       [
@@ -27,12 +27,21 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/logo/logo.png",
+        "backgroundColor": "#808080"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.dami600b.Omninutrient"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0358cf6c-2da6-46ce-b004-77cc4564caee"
+      }
     }
   }
 }

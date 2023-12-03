@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Image } from "react-native";
 import LoggedInLayout from "../../components/Layout/LoggedLayout";
 import AppText from "../../components/Display/AppText";
 import SearchBar from "../../components/Input/SearchBar";
@@ -69,57 +69,25 @@ function MainCommunityScreen({ navigation }: MainCommunityProps) {
                     Welcome to the Community
                 </AppText>
 
-                <SearchBar />
 
 
-                <FlatGrid
-                    data={data?.data.results}
-                    // ref={flatGridRef}
+                <Image
+                    source={require("../../assets/images/coming_soon.png")}
+                    style={apptw`rounded-sm w-full h-70  mx-auto `}
 
-                    renderItem={({ item }) => (<BasicNoteDisplay
-                        onPress={() => NavClick(item.slug)}
-                        desciption={item.name}
-                        image={`${REC_API_URL}${item.image_path}`} />)}
+
                 />
 
-
-                {counter > 1 ?
-
-                    <View
-                        style={apptw`flex-row justify-between w-1/2 gap-x-3 py-5`}
-                    >
-
-                        <AppButton
-                            buttonStyle={apptw`my-5`}
-                            text="Previous"
-                            onPress={Decrease}
-                        />
-
-                        <AppButton
-                            buttonStyle={apptw`my-5`}
-
-                            text="Next"
-                            onPress={Increase}
-                        />
+                <AppText 
+                style={apptw`text-primary text-center text-3xl font-bold py-10`}
+                >
+                    Under Construction
+                </AppText>
+                <AppText>
+                    This will be the community section where users share and view recipes made by other users
+                </AppText>
 
 
-                    </View>
-
-                    :
-
-                    <View
-                        style={apptw` `}
-                    >
-                        <AppButton
-                            buttonStyle={apptw`my-5 fixed`}
-
-                            text="Next"
-                            onPress={Increase}
-                        />
-
-                    </View>
-
-                }
 
 
 

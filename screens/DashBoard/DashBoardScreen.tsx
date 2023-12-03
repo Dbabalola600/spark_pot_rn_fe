@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, ScrollView, FlatList } from "react-native"
+import { View, StyleSheet, Text, ScrollView, FlatList, Image } from "react-native"
 import LoggedInLayout from "../../components/Layout/LoggedLayout"
 import AppText from "../../components/Display/AppText"
 import { useEffect, useRef, useState } from "react"
@@ -43,7 +43,7 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
     const [counter, setCounter] = useState(1)
     const scrollViewRef = useRef(null);
     const flatGridRef = useRef(null);
-
+    const [useSearch, SetSearch] = useState("")
 
     useEffect(() => {
         const setGreetingBasedOnTime = () => {
@@ -69,7 +69,7 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
 
 
     const { data, error, isLoading } = useSWR<MyData>(
-        `${BASE_URL}/recipe/?search=rice&page=${counter}`,
+        `${BASE_URL}/recipe/?search=${useSearch}&page=${counter}`,
         fetcher
     );
 
@@ -104,45 +104,59 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
     const NavClick = (slug: any) => {
         navigation.navigate("DetailsFromApiScreen", { slug: slug })
     }
+
+
+    const search = (text: any) => {
+        console.log(text)
+        SetSearch(text)
+    }
+
+    console.log(data?.data?.results?.length)
     return (
         <LoggedInLayout pageTitle="">
             <View
-                style={apptw`px-4 mb-10`}>
+                style={apptw`px-4 mb-10 `}>
 
                 <AppText>
                     {greeting} {user.fName} {user.lName}
                 </AppText>
 
-                <SearchBar />
-
-
-
-
-
-
-                <FlatGrid
-                    data={data?.data.results}
-                    ref={flatGridRef}
-
-                    renderItem={({ item }) => (<BasicNoteDisplay
-                        onPress={() => NavClick(item.slug)}
-                        desciption={item.name}
-                        image={`${REC_API_URL}${item.image_path}`} />)}
+                <SearchBar
+                    onPress={search}
                 />
 
-                {/* <FlatList
-                
-                data={data?.data.results}
-                    // ref={flatGridRef}
 
-                    numColumns={2}
-                    
 
-                    renderItem={({ item }) => (<BasicNoteDisplay
 
-                        desciption={item.name}
-                        image={`${REC_API_URL}${item.image_path}`} />)}
-                /> */}
+                {data?.data?.results?.length === undefined ?
+                    <View>
+                        <Image
+                            source={require("../../assets/images/empty_search.png")}
+                            style={apptw`rounded-sm w-full h-60  mx-auto `}
+
+
+                        />
+
+                    </View> :
+                    <View>
+                        <FlatGrid
+                            data={data?.data.results}
+                            ref={flatGridRef}
+
+                            renderItem={({ item }) => (<BasicNoteDisplay
+                                onPress={() => NavClick(item.slug)}
+                                desciption={item.name}
+                                image={`${REC_API_URL}${item.image_path}`} />)}
+                        />
+
+                    </View>
+
+                }
+
+
+
+
+
 
 
 
@@ -172,7 +186,7 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
                     :
 
                     <View
-                    style={apptw` `}
+                        style={apptw` `}
                     >
                         <AppButton
                             buttonStyle={apptw`my-5 fixed`}

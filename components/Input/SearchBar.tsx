@@ -1,11 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Pressable } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Pressable, GestureResponderEvent } from 'react-native';
 
 import { FontAwesome } from '@expo/vector-icons';
 
 
-const SearchBar = () => {
+
+type buttonProp={
+    onPress? : any
+    // onPress?: ((event: GestureResponderEvent) => void) | null | undefined;
+}
+
+const SearchBar = (props: buttonProp) => {
     const [searchText, setSearchText] = useState('');
     const navigation = useNavigation();
 
@@ -14,6 +20,12 @@ const SearchBar = () => {
             console.log("searched")
         }
     }
+
+    const handlePress = () => {
+        // Access the searchText value here
+        props.onPress(searchText);
+      };
+    
 
     return (
         <View style={styles.container}>
@@ -25,7 +37,7 @@ const SearchBar = () => {
             />
 
             <Pressable
-                onPress={search}
+                onPress={handlePress}
 
             >
                 <FontAwesome name="search" size={24} color="black" />

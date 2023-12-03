@@ -37,7 +37,7 @@ export default function SavedJournalScreen() {
 
 
     return (
-        <BasicBackButtonLayout pageTitle="Saved Journal">
+        <BasicBackButtonLayout pageTitle="Saved Recipes">
 
             <View
                 style={apptw`mb-100  mx-0 my-0`}

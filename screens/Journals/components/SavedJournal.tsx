@@ -10,7 +10,7 @@ import BasicNoteDisplay from "../../../components/Display/Notes/BasicNoteDisplay
 import { useSelector } from "react-redux";
 import { authSelector } from "../../../state/userSlice";
 import useSWR from "swr";
-import { BASE_URL } from "../../../utils/lib/envvar";
+import { BASE_URL, REC_API_URL } from "../../../utils/lib/envvar";
 
 type SavedJournal = NativeStackScreenProps<
     RootStackParamList,
@@ -51,6 +51,22 @@ export default function SavedJournal() {
 
 
 
+
+    //  useEffect(() => {
+    //     Showinfo
+    // }, [])
+
+
+
+    // const Showinfo = () => {
+
+    //     const response = axios.get(`${BASE_URL}/recipe/getDetailsAPI?slug=${slug}`)
+
+
+    //     console.log(response)
+    // }
+
+
     return (
         <>
 
@@ -60,7 +76,7 @@ export default function SavedJournal() {
                 <AppText
                     style={apptw`underline text-primary`}
                 >
-                    Saved Journal
+                    Saved Recipes
                 </AppText>
 
 
@@ -88,7 +104,7 @@ export default function SavedJournal() {
                         data={data?.data?.slice(0, 4)}
                         renderItem={({ item }) => (<BasicNoteDisplay
                             onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
-                            image={item.image}
+                            image={`${REC_API_URL}${item.image}`} 
                             desciption={item.name}
                         />)}
                     />

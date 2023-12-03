@@ -2,12 +2,17 @@ import { ScrollView, Image, FlatList, View } from "react-native";
 import BasicBackButtonLayout from "../../../components/Layout/BasicBackButtonLayout";
 import useSWR from "swr";
 import { BASE_URL, REC_API_URL } from "../../../utils/lib/envvar";
-import { RouteProp } from "@react-navigation/native";
+import { RouteProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../allroutes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppText from "../../../components/Display/AppText";
 import apptw from "../../../utils/lib/tailwind";
 import AppButton from "../../../components/Display/AppButton";
+import Toast from "react-native-toast-message";
+import recipeRequest from "../../../utils/request/recipeRequests";
+import { authSelector } from "../../../state/userSlice";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 
 
@@ -37,7 +42,12 @@ type Props = {
 const DetailsFromApiScreen: React.FC<Props> = ({ route }) => {
     const [newInfo, setInfo] = useState([])
     const slug = route.params?.slug
+    const { user } = useSelector(authSelector);
+    const navigation = useNavigation()
 
+    const navigatetoDashBoard = () => {
+        navigation.navigate("DashBoardScreen")
+    }
     const { data, error, isLoading } = useSWR<MyData>(
         `${BASE_URL}/recipe/getDetailsAPI?slug=${slug}`,
         fetcher,
@@ -46,18 +56,52 @@ const DetailsFromApiScreen: React.FC<Props> = ({ route }) => {
     );
 
     // setInfo(data?.data.results)
-    console.log(data?.data.results[0])
+
+   
+
+  
 
 
+    const addNew = async () => {
+        console.log(data?.data?.results[0].slug)
+        const response = await recipeRequest.addtoJournalfromAPI(
+            user._id,
+            data?.data?.results[0].image_path,
+            data?.data?.results[0].servings,
+            data?.data?.results[0].ingredients,
+            data?.data?.results[0].name,
+            data?.data?.results[0].instructions,
+            data?.data?.results[0].date_added,
+            data?.data?.results[0].total_time_string,
+            data?.data?.results[0].description,
+            data?.data?.results[0].author,
+            data?.data?.results[0].slug
+        ).then(res => {
+            // console.log(res);
+            if (res.status === 200) {
 
-    if (data?.data.results[0].slug === undefined) {
+                Toast.show({
+
+                    type: 'success',
+                    text1: 'Added to Journal',
+                    // text2: 'iwoiovw'
+                });
+                navigatetoDashBoard()
+            }
+        })
+
+
+    }
+
+    if (data?.data?.results[0].slug === undefined) {
         return (
             <BasicBackButtonLayout pageTitle="">
 
                 <View>
-                    <AppText>
-                        Nothing
-                    </AppText>
+                    <Image
+                        source={require("../../../assets/images/empty_search.png")}
+                        style={apptw`rounded-sm w-full h-60  mx-auto `}
+                    />
 
                 </View>
 
@@ -100,6 +144,7 @@ const DetailsFromApiScreen: React.FC<Props> = ({ route }) => {
                             text="Add to Journal"
                             textStyle={apptw`text-3`}
                             buttonStyle={apptw`w-[30] p-2 mt-2`}
+                            onPress={addNew}
                         />
 
 
