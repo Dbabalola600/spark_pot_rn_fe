@@ -6,8 +6,8 @@ import { FontAwesome } from '@expo/vector-icons';
 
 
 
-type buttonProp={
-    onPress? : any
+type buttonProp = {
+    onPress?: any
     // onPress?: ((event: GestureResponderEvent) => void) | null | undefined;
 }
 
@@ -24,8 +24,8 @@ const SearchBar = (props: buttonProp) => {
     const handlePress = () => {
         // Access the searchText value here
         props.onPress(searchText);
-      };
-    
+    };
+
 
     return (
         <View style={styles.container}>

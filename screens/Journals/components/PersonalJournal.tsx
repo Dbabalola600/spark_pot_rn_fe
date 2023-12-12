@@ -12,6 +12,7 @@ import { BASE_URL } from "../../../utils/lib/envvar";
 import { useEffect, useState } from "react";
 import { SecureStorage } from "../../../services/singleton/secureStorage";
 import axios from "axios";
+import Loader from "../../../components/Display/Loader";
 
 
 interface MyData {
@@ -32,6 +33,7 @@ const fetcher = async (url: string): Promise<MyData> => {
 export default function PersonalJournal() {
     const [user, Setuser] = useState<any>([]);
     const [data, setData] = useState<any>([])
+    const [isLoading, setLoading] = useState(false)
     const navigation = useNavigation();
 
     const navigatetoPersonalScreen = () => {
@@ -40,13 +42,17 @@ export default function PersonalJournal() {
 
 
     const showinfo = async () => {
+
+        setLoading(true)
         let userId = await SecureStorage.getInst().getValueFor("userId");
-       
+
 
         const response = await axios.get(`${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${userId}`).then((res) => {
             setData(res.data.data)
             // console.log(res.data.data)
         })
+
+        setLoading(false)
     }
 
 
@@ -56,12 +62,7 @@ export default function PersonalJournal() {
 
 
 
-    // const { user } = useSelector(authSelector);
 
-    // const { data, error, isLoading } = useSWR<MyData>(
-    //     `${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${user?.userId}`,
-    //     fetcher
-    // );
 
 
 
@@ -91,29 +92,37 @@ export default function PersonalJournal() {
             </View>
 
 
-            {data?.length < 1 ?
+            {isLoading ?
+                <Loader /> :
+                <>
+                    {data?.length < 1 ?
 
 
-                <View style={apptw`justify-items-center text-center`}>
-                    <Image
-                        source={require("../../../assets/images/empty1.png")}
-                        style={apptw` w-70 h-70  mx-auto`}
-                    />
-                </View> :
-                <View>
+                        <View style={apptw`justify-items-center text-center`}>
+                            <Image
+                                source={require("../../../assets/images/empty1.png")}
+                                style={apptw` w-70 h-70  mx-auto`}
+                            />
+                        </View> :
+                        <View>
 
-                    <FlatGrid
-                        // itemDimension={150}
-                        data={data.slice(0, 4)}
-                        renderItem={({ item }) => (<BasicNoteDisplay
-                            onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
-                            image={item.image}
-                            desciption={item.name}
-                        />)}
-                    />
+                            <FlatGrid
+                                // itemDimension={150}
+                                data={data.slice(0, 4)}
+                                renderItem={({ item }) => (<BasicNoteDisplay
+                                    onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
+                                    image={item.image}
+                                    desciption={item.name}
+                                />)}
+                            />
 
-                </View>
+                        </View>
+                    }
+                </>
+
             }
+
+
 
 
 

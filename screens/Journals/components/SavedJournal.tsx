@@ -14,6 +14,7 @@ import { BASE_URL, REC_API_URL } from "../../../utils/lib/envvar";
 import { SecureStorage } from "../../../services/singleton/secureStorage";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "../../../components/Display/Loader";
 
 type SavedJournal = NativeStackScreenProps<
     RootStackParamList,
@@ -40,6 +41,8 @@ export default function SavedJournal() {
     const navigation = useNavigation();
     const [user, Setuser] = useState<any>([]);
     const [data, setData] = useState<any>([])
+    const [isLoading, setLoading] = useState(false)
+
     const navigatetoSavedScreen = () => {
         navigation.navigate("SavedJournalScreen")
     }
@@ -49,12 +52,13 @@ export default function SavedJournal() {
     // const { user } = useSelector(authSelector);
 
     const showinfo = async () => {
+        setLoading(true)
         let userId = await SecureStorage.getInst().getValueFor("userId");
         const response = await axios.get(`${BASE_URL}/recipe/getAllSavedRecipe/?userId=${userId}`).then((res) => {
             setData(res.data.data)
-            console.log(res.data.data)
+            // console.log(res.data.data)
         })
-
+        setLoading(false)
 
     }
 
@@ -108,28 +112,39 @@ export default function SavedJournal() {
 
             </View>
 
-            {data.length < 1 ?
+            {isLoading ?
+
+                <>
+                    <Loader />
+
+                </> :
+                <>
+                    {data.length < 1 ?
 
 
-                <View style={apptw`justify-items-center text-center`}>
-                    <Image
-                        source={require("../../../assets/images/empty1.png")}
-                        style={apptw` w-70 h-70  mx-auto`}
-                    />
-                </View> :
-                <View>
-                    <FlatGrid
-                        // itemDimension={150}
-                        data={data.slice(0, 4)}
-                        renderItem={({ item }) => (<BasicNoteDisplay
-                            onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
-                            image={`${REC_API_URL}${item.image}`} 
-                            desciption={item.name}
-                        />)}
-                    />
+                        <View style={apptw`justify-items-center text-center`}>
+                            <Image
+                                source={require("../../../assets/images/empty1.png")}
+                                style={apptw` w-70 h-70  mx-auto`}
+                            />
+                        </View> :
+                        <View>
+                            <FlatGrid
+                                // itemDimension={150}
+                                data={data.slice(0, 4)}
+                                renderItem={({ item }) => (<BasicNoteDisplay
+                                    onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
+                                    image={`${REC_API_URL}${item.image}`}
+                                    desciption={item.name}
+                                />)}
+                            />
 
-                </View>
+                        </View>
+                    }
+                </>
             }
+
+
 
 
         </>

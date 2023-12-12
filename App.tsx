@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import apptw from './utils/lib/tailwind';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootStackParamList } from './screens/allroutes';
@@ -19,7 +19,6 @@ import AuthStack from './Navigation/AuthStack';
 import AppStack from './Navigation/AppStack';
 import store from './state/store';
 import Toast, { BaseToast, BaseToastProps, ErrorToast } from 'react-native-toast-message';
-import { authSelector } from './state/userSlice';
 
 
 
@@ -70,8 +69,6 @@ const toastConfig = {
 
 export default function App() {
   const Stack = createNativeStackNavigator<RootStackParamList>();
-
-
 
 
 

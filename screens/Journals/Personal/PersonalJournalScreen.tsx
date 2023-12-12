@@ -18,6 +18,7 @@ import { RootStackParamList } from "../../allroutes";
 import { useEffect, useState } from "react";
 import { SecureStorage } from "../../../services/singleton/secureStorage";
 import axios from "axios";
+import Loader from "../../../components/Display/Loader";
 
 
 
@@ -42,11 +43,12 @@ export default function PersonalJournalScreen({ navigation }: PersonalJournalPro
 
     const [userinfo, Setuser] = useState<any>([]);
     const [data, setData] = useState<any>([])
-
+    const [isLoading, setLoading] = useState(false)
 
 
 
     const getuser = async () => {
+        setLoading(true)
         let userId = await SecureStorage.getInst().getValueFor("userId");
 
 
@@ -55,7 +57,8 @@ export default function PersonalJournalScreen({ navigation }: PersonalJournalPro
             console.log(res.data.data)
         })
 
-        // console.log(data)
+        setLoading(false)
+
 
     }
 
@@ -113,40 +116,49 @@ export default function PersonalJournalScreen({ navigation }: PersonalJournalPro
                 </View>
 
 
+                {isLoading ?
+                    <>
+                        <Loader />
+                    </> :
+                    <>
+                        {data?.length < 1 ?
+
+                            <View style={apptw`justify-items-center text-center`}>
+                                <Image
+                                    source={require("../../../assets/images/empty1.png")}
+                                    style={apptw` w-70 h-70  mx-auto bg-black`}
+                                />
+                            </View> :
+
+                            <View>
+
+                                <View>
+                                    <SearchBar />
+                                </View>
 
 
-                {data?.length < 1 ?
-
-                    <View style={apptw`justify-items-center text-center`}>
-                        <Image
-                            source={require("../../../assets/images/empty1.png")}
-                            style={apptw` w-70 h-70  mx-auto bg-black`}
-                        />
-                    </View> :
-
-                    <View>
-
-                        <View>
-                            <SearchBar />
-                        </View>
+                                <View>
 
 
-                        <View>
+                                    <FlatGrid
 
+                                        data={data}
+                                        renderItem={({ item }) => (<BasicNoteDisplay
+                                            onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
+                                            image={item.image}
+                                            desciption={item.name}
+                                        />)}
+                                    />
+                                </View>
 
-                            <FlatGrid
+                            </View>
+                        }
 
-                                data={data}
-                                renderItem={({ item }) => (<BasicNoteDisplay
-                                    onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
-                                    image={item.image}
-                                    desciption={item.name}
-                                />)}
-                            />
-                        </View>
+                    </>
 
-                    </View>
                 }
+
+
 
 
 

@@ -117,14 +117,14 @@ const SignIn = ({ navigation }: SignInScreen) => {
                             isPassword={true}
                         />
 
-                        <View>
+                        {/* <View>
                             <PressAppText
                                 // onPress={navigatetoForgotPassword}
                                 style={apptw`text-black `}
                             >
                                 Forgot Password?
                             </PressAppText>
-                        </View>
+                        </View> */}
 
                         <AppButton
                             buttonStyle={apptw`  my-6`}

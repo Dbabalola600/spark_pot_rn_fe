@@ -14,6 +14,7 @@ import { authSelector } from "../../../state/userSlice";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { SecureStorage } from "../../../services/singleton/secureStorage";
+import Loader from "../../../components/Display/Loader";
 
 
 
@@ -95,109 +96,125 @@ const DetailsFromApiScreen: React.FC<Props> = ({ route }) => {
 
     }
 
-    if (data?.data?.results[0].slug === undefined) {
+
+    if (isLoading) {
         return (
+
             <BasicBackButtonLayout pageTitle="">
-
-                <View>
-                    <Image
-                        source={require("../../../assets/images/empty_search.png")}
-                        style={apptw`rounded-sm w-full h-60  mx-auto `}
-                    />
-
-                </View>
+                <>
+                    <Loader />
+                </>
 
             </BasicBackButtonLayout>
-        )
-    }
-    else {
-        return (
-            <BasicBackButtonLayout pageTitle={""}>
-                <ScrollView
-                    style={apptw`mx-2 mb-15`}
-                >
 
-                    <View
-                        style={apptw`pb-5 `}
-                    >
-                        <AppText style={apptw`text-center `}>
-                            {data?.data.results[0].name}
-                        </AppText>
-                        <AppText style={apptw`text-center `}>
-                            By: {data?.data.results[0].author}
-                        </AppText>
+        )
+    } else {
+        if (data?.data?.results[0].slug === undefined) {
+            return (
+                <BasicBackButtonLayout pageTitle="">
+
+                    <View>
+                        <Image
+                            source={require("../../../assets/images/empty_search.png")}
+                            style={apptw`rounded-sm w-full h-60  mx-auto `}
+                        />
 
                     </View>
 
-                    <AppText style={apptw`text-sm `}>
-                        Time: {data?.data.results[0].total_time_string}
-                    </AppText>
-
-
-                    <View
-                        style={apptw`flex-row justify-between gap-x-4`}
+                </BasicBackButtonLayout>
+            )
+        }
+        else {
+            return (
+                <BasicBackButtonLayout pageTitle={""}>
+                    <ScrollView
+                        style={apptw`mx-2 mb-15`}
                     >
 
-                        <View>
+                        <View
+                            style={apptw`pb-5 `}
+                        >
+                            <AppText style={apptw`text-center `}>
+                                {data?.data.results[0].name}
+                            </AppText>
+                            <AppText style={apptw`text-center `}>
+                                By: {data?.data.results[0].author}
+                            </AppText>
+
+                        </View>
+
+                        <AppText style={apptw`text-sm `}>
+                            Time: {data?.data.results[0].total_time_string}
+                        </AppText>
+
+
+                        <View
+                            style={apptw`flex-row justify-between gap-x-4`}
+                        >
+
+                            <View>
+
+
+                            </View>
+                            <AppButton
+                                text="Add to Journal"
+                                textStyle={apptw`text-3`}
+                                buttonStyle={apptw`w-[30] p-2 mt-2`}
+                                onPress={addNew}
+                            />
 
 
                         </View>
-                        <AppButton
-                            text="Add to Journal"
-                            textStyle={apptw`text-3`}
-                            buttonStyle={apptw`w-[30] p-2 mt-2`}
-                            onPress={addNew}
+
+                        <View
+                            style={apptw`pt-5`}
+                        >
+                            <Image
+                                style={apptw`rounded-sm h-70 `}
+                                source={{ uri: `${REC_API_URL}${data?.data.results[0].image_path}` }}
+                            />
+
+                        </View>
+
+
+                        <AppText
+
+                        >{data?.data.results[0].description}</AppText>
+
+                        <AppText
+                            style={apptw`py-5 font-bold underline text-primary text-3xl`}
+                        >
+                            Ingredients
+                        </AppText>
+                        <FlatList
+                            data={data?.data.results[0].ingredients}
+                            renderItem={({ item, index }) => (
+                                <AppText style={apptw`px-2`}> {index + 1}. {item}</AppText>
+                            )}
+                        />
+
+                        <AppText
+                            style={apptw`py-5 font-bold underline text-primary text-3xl`}
+                        >
+                            Instructions
+                        </AppText>
+                        <FlatList
+                            data={data?.data.results[0].instructions}
+                            renderItem={({ item, index }) => (
+                                <AppText style={apptw`px-2`}> {index + 1}. {item}</AppText>
+                            )}
                         />
 
 
-                    </View>
 
-                    <View
-                        style={apptw`pt-5`}
-                    >
-                        <Image
-                            style={apptw`rounded-sm h-70 `}
-                            source={{ uri: `${REC_API_URL}${data?.data.results[0].image_path}` }}
-                        />
+                    </ScrollView>
 
-                    </View>
-
-
-                    <AppText
-
-                    >{data?.data.results[0].description}</AppText>
-
-                    <AppText
-                        style={apptw`py-5 font-bold underline text-primary text-3xl`}
-                    >
-                        Ingredients
-                    </AppText>
-                    <FlatList
-                        data={data?.data.results[0].ingredients}
-                        renderItem={({ item, index }) => (
-                            <AppText style={apptw`px-2`}> {index + 1}. {item}</AppText>
-                        )}
-                    />
-
-                    <AppText
-                        style={apptw`py-5 font-bold underline text-primary text-3xl`}
-                    >
-                        Instructions
-                    </AppText>
-                    <FlatList
-                        data={data?.data.results[0].instructions}
-                        renderItem={({ item, index }) => (
-                            <AppText style={apptw`px-2`}> {index + 1}. {item}</AppText>
-                        )}
-                    />
-
-
-
-                </ScrollView>
-
-            </BasicBackButtonLayout>
-        )
+                </BasicBackButtonLayout>
+            )
+        }
     }
+
+
 
 
 

@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, ScrollView, FlatList, Image } from "react-native"
+import { View, StyleSheet, Text, ScrollView, FlatList, Image, ActivityIndicator } from "react-native"
 import LoggedInLayout from "../../components/Layout/LoggedLayout"
 import AppText from "../../components/Display/AppText"
 import { useEffect, useRef, useState } from "react"
@@ -18,6 +18,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../allroutes"
 import { userGetUserInfo } from "../../services/hooks/getUserInfo"
 import { SecureStorage } from "../../services/singleton/secureStorage"
+import Loader from "../../components/Display/Loader"
 
 
 
@@ -74,7 +75,7 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
     }, []);
 
 
-    // console.log(user.userid)
+
 
 
 
@@ -83,7 +84,7 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
         let lName = await SecureStorage.getInst().getValueFor("lName");
 
 
-        console.log(lName)
+        // console.log(lName)
 
         Setuser({
 
@@ -92,7 +93,7 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
 
         });
 
-        console.log(user)
+        // console.log(user)
     }
 
 
@@ -110,7 +111,7 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
         fetcher
     );
 
-    // console.log(data?.data.results[0].image_path)
+    console.log("load", isLoading)
 
 
 
@@ -158,83 +159,98 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
                     {greeting} {user?.fName} {user?.lName}
                 </AppText>
 
-                <SearchBar
-                    onPress={search}
-                />
 
+          
+                {isLoading ?
 
-
-
-                {data?.data?.results?.length === undefined ?
-                    <View>
-                        <Image
-                            source={require("../../assets/images/empty_search.png")}
-                            style={apptw`rounded-sm w-full h-60  mx-auto `}
-
-
-                        />
-
+                    <View
+                    style={apptw`mx-auto py-10`}
+                    >
+                           <Loader/>
                     </View> :
+
                     <View>
-                        <FlatGrid
-                            data={data?.data.results}
-                            ref={flatGridRef}
-
-                            renderItem={({ item }) => (<BasicNoteDisplay
-                                onPress={() => NavClick(item.slug)}
-                                desciption={item.name}
-                                image={`${REC_API_URL}${item.image_path}`} />)}
+                        <SearchBar
+                            onPress={search}
                         />
 
-                    </View>
 
+
+
+                        {data?.data?.results?.length === undefined ?
+                            <View>
+                                <Image
+                                    source={require("../../assets/images/empty_search.png")}
+                                    style={apptw`rounded-sm w-full h-60  mx-auto `}
+
+
+                                />
+
+                            </View> :
+                            <View>
+                                <FlatGrid
+                                    data={data?.data.results}
+                                    ref={flatGridRef}
+
+                                    renderItem={({ item }) => (<BasicNoteDisplay
+                                        onPress={() => NavClick(item.slug)}
+                                        desciption={item.name}
+                                        image={`${REC_API_URL}${item.image_path}`} />)}
+                                />
+
+                            </View>
+
+                        }
+
+
+
+
+
+
+
+
+
+                        {counter > 1 ?
+
+                            <View
+                                style={apptw`flex-row justify-between w-1/2 gap-x-3 py-5`}
+                            >
+
+                                <AppButton
+                                    buttonStyle={apptw`my-5`}
+                                    text="Previous"
+                                    onPress={Decrease}
+                                />
+
+                                <AppButton
+                                    buttonStyle={apptw`my-5`}
+
+                                    text="Next"
+                                    onPress={Increase}
+                                />
+
+
+                            </View>
+
+                            :
+
+                            <View
+                                style={apptw` `}
+                            >
+                                <AppButton
+                                    buttonStyle={apptw`my-5 fixed`}
+
+                                    text="Next"
+                                    onPress={Increase}
+                                />
+
+                            </View>
+
+                        }
+                    </View>
                 }
 
 
-
-
-
-
-
-
-
-                {counter > 1 ?
-
-                    <View
-                        style={apptw`flex-row justify-between w-1/2 gap-x-3 py-5`}
-                    >
-
-                        <AppButton
-                            buttonStyle={apptw`my-5`}
-                            text="Previous"
-                            onPress={Decrease}
-                        />
-
-                        <AppButton
-                            buttonStyle={apptw`my-5`}
-
-                            text="Next"
-                            onPress={Increase}
-                        />
-
-
-                    </View>
-
-                    :
-
-                    <View
-                        style={apptw` `}
-                    >
-                        <AppButton
-                            buttonStyle={apptw`my-5 fixed`}
-
-                            text="Next"
-                            onPress={Increase}
-                        />
-
-                    </View>
-
-                }
 
 
             </View>
