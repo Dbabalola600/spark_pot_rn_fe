@@ -20,6 +20,7 @@ import AppStack from './Navigation/AppStack';
 import store from './state/store';
 import Toast, { BaseToast, BaseToastProps, ErrorToast } from 'react-native-toast-message';
 
+import { SWRConfig } from 'swr'
 
 
 
@@ -36,9 +37,9 @@ const toastConfig = {
   success: (props: React.JSX.IntrinsicAttributes & BaseToastProps) => (
     <BaseToast
       {...props}
-      style={{ borderLeftColor: '#54AC52'  }}
-      
-      contentContainerStyle={{ paddingHorizontal: 10,  }}
+      style={{ borderLeftColor: '#54AC52' }}
+
+      contentContainerStyle={{ paddingHorizontal: 10, }}
       text1Style={{
         fontSize: 20,
         fontWeight: '400'
@@ -60,7 +61,7 @@ const toastConfig = {
       }}
     />
   ),
-  
+
 };
 
 
@@ -76,19 +77,30 @@ export default function App() {
     <Provider
       store={store}
     >
-      <SafeAreaProvider>
-        <StatusBar  backgroundColor="#fff" />
+      <SWRConfig
+        value={{
+          revalidateOnFocus: true,
+          revalidateOnReconnect: true,
+          revalidateIfStale: true,
+          focusThrottleInterval: 5000
+        }}
+      >
+
+        <SafeAreaProvider>
+          <StatusBar backgroundColor="#fff" />
 
 
-        <NavigationContainer>
-          {/* <AppStack/> */}
-          <AuthStack />
-        </NavigationContainer>
+          <NavigationContainer>
+            {/* <AppStack/> */}
+            <AuthStack />
+          </NavigationContainer>
 
 
 
-      </SafeAreaProvider>
-      <Toast config={toastConfig} />
+        </SafeAreaProvider>
+        <Toast config={toastConfig} />
+      </SWRConfig>
+
     </Provider>
 
 

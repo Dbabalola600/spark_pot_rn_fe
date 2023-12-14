@@ -13,11 +13,14 @@ import { useEffect, useState } from "react";
 import { SecureStorage } from "../../../services/singleton/secureStorage";
 import axios from "axios";
 import Loader from "../../../components/Display/Loader";
-
+import { useSWRNativeRevalidate } from '@nandorojo/swr-react-native';
 
 interface MyData {
     data: any
 }
+
+// type MyData = any[];
+
 
 
 const fetcher = async (url: string): Promise<MyData> => {
@@ -27,14 +30,16 @@ const fetcher = async (url: string): Promise<MyData> => {
     return data;
 };
 
-
+// const fetcher = (url: any) => fetch(url).then(res => res.json());
 
 
 export default function PersonalJournal() {
     const [user, Setuser] = useState<any>([]);
-    const [data, setData] = useState<any>([])
-    const [isLoading, setLoading] = useState(false)
+    // const [data, setData] = useState<any>([])
+    // const [isLoading, setLoading] = useState(false)
     const navigation = useNavigation();
+
+    const [userId, setUserId] = useState<any>("")
 
     const navigatetoPersonalScreen = () => {
         navigation.navigate("PersonalJournalScreen")
@@ -43,24 +48,27 @@ export default function PersonalJournal() {
 
     const showinfo = async () => {
 
-        setLoading(true)
-        let userId = await SecureStorage.getInst().getValueFor("userId");
+        // setLoading(true)
+        const userId = await SecureStorage.getInst().getValueFor("userId");
 
+        setUserId(userId)
 
-        const response = await axios.get(`${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${userId}`).then((res) => {
-            setData(res.data.data)
-            // console.log(res.data.data)
-        })
+        // const response = await axios.get(`${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${userId}`).then((res) => {
+        //     setData(res.data.data)
+        //     // console.log(res.data.data)
+        // })
 
-        setLoading(false)
+        // setLoading(false)
     }
 
 
     useEffect(() => {
         showinfo()
     }, [])
+    const { data, mutate, isLoading } = useSWR(`${BASE_URL}/recipe/getAllPersonalRecipe/?userId=${userId}`, fetcher)
+    useSWRNativeRevalidate({ mutate });
 
-
+    console.log("here", data?.data?.length)
 
 
 
@@ -95,7 +103,7 @@ export default function PersonalJournal() {
             {isLoading ?
                 <Loader /> :
                 <>
-                    {data?.length < 1 ?
+                    {data?.data?.length < 1 ?
 
 
                         <View style={apptw`justify-items-center text-center`}>
@@ -108,7 +116,7 @@ export default function PersonalJournal() {
 
                             <FlatGrid
                                 // itemDimension={150}
-                                data={data.slice(0, 4)}
+                                data={data?.data?.slice(0, 4)}
                                 renderItem={({ item }) => (<BasicNoteDisplay
                                     onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
                                     image={item.image}

@@ -19,6 +19,7 @@ import { RootStackParamList } from "../allroutes"
 import { userGetUserInfo } from "../../services/hooks/getUserInfo"
 import { SecureStorage } from "../../services/singleton/secureStorage"
 import Loader from "../../components/Display/Loader"
+import { useSWRNativeRevalidate } from "@nandorojo/swr-react-native"
 
 
 
@@ -106,10 +107,11 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
 
 
 
-    const { data, error, isLoading } = useSWR<MyData>(
+    const { data, error, isLoading , mutate} = useSWR<MyData>(
         `${BASE_URL}/recipe/?search=${useSearch}&page=${counter}`,
         fetcher
     );
+    useSWRNativeRevalidate({ mutate });
 
     console.log("load", isLoading)
 
@@ -149,7 +151,7 @@ function DashBoardScreen({ navigation }: DashBoardProps) {
         SetSearch(text)
     }
 
-    console.log(data?.data?.results?.length)
+    // console.log(data?.data?.results?.length)
     return (
         <LoggedInLayout pageTitle="">
             <View

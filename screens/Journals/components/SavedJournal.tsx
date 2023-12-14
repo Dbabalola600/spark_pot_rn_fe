@@ -15,6 +15,7 @@ import { SecureStorage } from "../../../services/singleton/secureStorage";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../../../components/Display/Loader";
+import { useSWRNativeRevalidate } from "@nandorojo/swr-react-native";
 
 type SavedJournal = NativeStackScreenProps<
     RootStackParamList,
@@ -39,26 +40,27 @@ const fetcher = async (url: string): Promise<MyData> => {
 
 export default function SavedJournal() {
     const navigation = useNavigation();
-    const [user, Setuser] = useState<any>([]);
-    const [data, setData] = useState<any>([])
-    const [isLoading, setLoading] = useState(false)
+    // const [user, Setuser] = useState<any>([]);
+    // const [data, setData] = useState<any>([])
+    // const [isLoading, setLoading] = useState(false)
 
     const navigatetoSavedScreen = () => {
         navigation.navigate("SavedJournalScreen")
     }
-
+    const [userId, setUserId] = useState<any>("")
 
 
     // const { user } = useSelector(authSelector);
 
     const showinfo = async () => {
-        setLoading(true)
+        // setLoading(true)
         let userId = await SecureStorage.getInst().getValueFor("userId");
-        const response = await axios.get(`${BASE_URL}/recipe/getAllSavedRecipe/?userId=${userId}`).then((res) => {
-            setData(res.data.data)
-            // console.log(res.data.data)
-        })
-        setLoading(false)
+        setUserId(userId)
+        // const response = await axios.get(`${BASE_URL}/recipe/getAllSavedRecipe/?userId=${userId}`).then((res) => {
+        //     setData(res.data.data)
+        //     // console.log(res.data.data)
+        // })
+        // setLoading(false)
 
     }
 
@@ -67,27 +69,15 @@ export default function SavedJournal() {
         showinfo()
     }, [])
 
-    // const { data, error, isLoading } = useSWR<MyData>(
-    //     `${BASE_URL}/recipe/getAllSavedRecipe/?userId=${user?.userId}`,
-    //     fetcher
-    // );
 
+    useEffect(() => {
+        showinfo()
+    }, [])
+    const { data, mutate, isLoading } = useSWR(`${BASE_URL}/recipe/getAllSavedRecipe/?userId=${userId}`, fetcher)
+    useSWRNativeRevalidate({ mutate });
 
-
-
-    //  useEffect(() => {
-    //     Showinfo
-    // }, [])
-
-
-
-    // const Showinfo = () => {
-
-    //     const response = axios.get(`${BASE_URL}/recipe/getDetailsAPI?slug=${slug}`)
-
-
-    //     console.log(response)
-    // }
+    console.log("here", data?.data?.length)
+   
 
 
     return (
@@ -119,7 +109,7 @@ export default function SavedJournal() {
 
                 </> :
                 <>
-                    {data.length < 1 ?
+                     {data?.data?.length < 1 ?
 
 
                         <View style={apptw`justify-items-center text-center`}>
@@ -131,7 +121,7 @@ export default function SavedJournal() {
                         <View>
                             <FlatGrid
                                 // itemDimension={150}
-                                data={data.slice(0, 4)}
+                                data={data?.data?.slice(0, 4)}
                                 renderItem={({ item }) => (<BasicNoteDisplay
                                     onPress={() => navigation.navigate("DetailsFromDBScreen", { _id: item._id })}
                                     image={`${REC_API_URL}${item.image}`}
